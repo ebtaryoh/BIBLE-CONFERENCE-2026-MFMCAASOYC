@@ -1,0 +1,2968 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MFMCAASO Youth Church Bible Conference 2026</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#0f0a05">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Playfair Display', 'Georgia', 'serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    },
+                    colors: {
+                        church: {
+                            50: '#faf8f5',
+                            100: '#f3ede4',
+                            200: '#e8dcc9',
+                            300: '#d4c2a0',
+                            400: '#bfa070',
+                            500: '#a8884a',
+                            600: '#8f7038',
+                            700: '#755a2e',
+                            800: '#5e4a2a',
+                            900: '#4d3d25',
+                            950: '#2a1f10',
+                        },
+                        gold: {
+                            50: '#fdf9ed',
+                            100: '#f9f0cc',
+                            200: '#f2e096',
+                            300: '#eccb5f',
+                            400: '#e6b83c',
+                            500: '#d49a1e',
+                            600: '#b87a16',
+                            700: '#935a14',
+                            800: '#7a4818',
+                            900: '#663b18',
+                        },
+                        royal: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        },
+                        group: {
+                            ruby: '#DC2626',
+                            sapphire: '#2563EB',
+                            emerald: '#059669',
+                            amber: '#D97706',
+                            amethyst: '#7C3AED',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: #0f0a05;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        /* App Container */
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            max-height: 932px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background: #faf8f5;
+            box-shadow: 0 0 80px rgba(0,0,0,0.4);
+        }
+
+        @media (min-width: 431px) {
+            .app-container {
+                border-radius: 40px;
+                margin: 20px auto;
+                height: calc(100vh - 40px);
+                border: 1px solid rgba(255,255,255,0.08);
+            }
+        }
+
+        /* Screen Management */
+        .screen {
+            position: absolute;
+            inset: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(30px);
+            transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 100px;
+        }
+
+        .screen::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .screen.exit-left {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            position: relative;
+            height: 420px;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 60% at 50% 100%, rgba(212,154,30,0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(124,58,237,0.08) 0%, transparent 60%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(15,10,5,0.15) 0%, rgba(15,10,5,0.5) 60%, rgba(250,248,245,1) 100%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                url('https://images.unsplash.com/photo-1507692049790-de58290a4334?w=800&q=80') center/cover no-repeat;
+            transform: scale(1.05);
+            animation: heroZoom 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroZoom {
+            0% { transform: scale(1.05); }
+            100% { transform: scale(1.15); }
+        }
+
+        /* Animated Text */
+        .animate-text-in {
+            animation: textSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .animate-text-in:nth-child(1) { animation-delay: 0.1s; }
+        .animate-text-in:nth-child(2) { animation-delay: 0.2s; }
+        .animate-text-in:nth-child(3) { animation-delay: 0.3s; }
+        .animate-text-in:nth-child(4) { animation-delay: 0.4s; }
+        .animate-text-in:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes textSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 
+                0 1px 2px rgba(0,0,0,0.04),
+                0 4px 12px rgba(0,0,0,0.04),
+                0 12px 32px rgba(0,0,0,0.06);
+        }
+
+        .glass-card-dark {
+            background: rgba(30,25,20,0.85);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 
+                0 4px 12px rgba(0,0,0,0.15),
+                0 12px 32px rgba(0,0,0,0.2);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #b87a16 0%, #d49a1e 50%, #e6b83c 100%);
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 2px 8px rgba(180,122,22,0.3),
+                0 4px 16px rgba(180,122,22,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+            box-shadow: 0 1px 4px rgba(180,122,22,0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.9);
+            color: #755a2e;
+            font-weight: 600;
+            border: 1.5px solid rgba(180,122,22,0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: rgba(180,122,22,0.4);
+            box-shadow: 0 4px 16px rgba(180,122,22,0.1);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.97);
+        }
+
+        /* Form Inputs */
+        .form-input {
+            background: rgba(255,255,255,0.8);
+            border: 1.5px solid rgba(180,122,22,0.12);
+            border-radius: 16px;
+            padding: 14px 18px;
+            font-size: 15px;
+            color: #2a1f10;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #d49a1e;
+            box-shadow: 0 0 0 4px rgba(212,154,30,0.08), 0 2px 8px rgba(212,154,30,0.06);
+            background: white;
+        }
+
+        .form-input::placeholder {
+            color: #a8884a;
+            opacity: 0.6;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #755a2e;
+            margin-bottom: 6px;
+            display: block;
+            letter-spacing: 0.02em;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border-top: 1px solid rgba(180,122,22,0.08);
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            z-index: 100;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.04);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 12px;
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item .nav-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #a8884a;
+        }
+
+        .nav-item .nav-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #a8884a;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active .nav-icon {
+            color: #b87a16;
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active .nav-label {
+            color: #b87a16;
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #d49a1e;
+            box-shadow: 0 0 8px rgba(212,154,30,0.5);
+        }
+
+        /* Progress Steps */
+        .progress-step {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-step.active {
+            background: linear-gradient(135deg, #b87a16, #d49a1e);
+            color: white;
+            box-shadow: 0 2px 12px rgba(180,122,22,0.3);
+        }
+
+        .progress-step.completed {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+        }
+
+        .progress-step.pending {
+            background: rgba(180,122,22,0.08);
+            color: #a8884a;
+            border: 2px solid rgba(180,122,22,0.15);
+        }
+
+        .progress-line {
+            height: 2px;
+            flex: 1;
+            background: rgba(180,122,22,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #b87a16, #d49a1e);
+            transition: width 0.5s ease;
+        }
+
+        .progress-line.completed::after {
+            width: 100%;
+        }
+
+        /* Success Animation */
+        .success-ring {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid rgba(5,150,105,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: successPulse 2s ease-in-out infinite;
+        }
+
+        .success-ring::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid rgba(5,150,105,0.08);
+            animation: successPulse 2s ease-in-out infinite 0.3s;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .success-check {
+            animation: checkDraw 0.6s cubic-bezier(0.65, 0, 0.45, 1) 0.3s forwards;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+        }
+
+        @keyframes checkDraw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Confetti */
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            gap: 6px;
+        }
+
+        .star-rating .star {
+            font-size: 28px;
+            color: #e8dcc9;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .star-rating .star:hover,
+        .star-rating .star.active {
+            color: #d49a1e;
+            transform: scale(1.15);
+        }
+
+        .star-rating .star.active {
+            text-shadow: 0 0 12px rgba(212,154,30,0.3);
+        }
+
+        /* QR Code */
+        .qr-container {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 
+                0 4px 12px rgba(0,0,0,0.06),
+                0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        /* Group Colors */
+        .group-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(30,25,20,0.95);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 90%;
+            width: max-content;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Admin Charts */
+        .chart-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 
+                0 1px 3px rgba(0,0,0,0.04),
+                0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid rgba(180,122,22,0.06);
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Micro-interactions */
+        .tap-scale {
+            transition: transform 0.15s ease;
+        }
+
+        .tap-scale:active {
+            transform: scale(0.96);
+        }
+
+        /* Shimmer loading */
+        .shimmer {
+            background: linear-gradient(90deg, rgba(180,122,22,0.05) 25%, rgba(180,122,22,0.1) 50%, rgba(180,122,22,0.05) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle 8s ease-in-out infinite;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            25% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
+            50% { transform: translateY(-10px) translateX(-5px); opacity: 0.4; }
+            75% { transform: translateY(-30px) translateX(5px); opacity: 0.5; }
+        }
+
+        /* Custom scrollbar for admin */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(180,122,22,0.2);
+            border-radius: 4px;
+        }
+
+        /* Date badge */
+        .date-badge {
+            background: linear-gradient(135deg, rgba(180,122,22,0.1), rgba(212,154,30,0.05));
+            border: 1px solid rgba(180,122,22,0.15);
+        }
+
+        /* Section divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(180,122,22,0.15), transparent);
+        }
+
+        /* Glow effect */
+        .glow-gold {
+            box-shadow: 0 0 40px rgba(212,154,30,0.15);
+        }
+
+        /* Animated border */
+        .animated-border {
+            position: relative;
+        }
+
+        .animated-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d49a1e, transparent);
+            transition: all 0.4s ease;
+            transform: translateX(-50%);
+        }
+
+        .animated-border:focus-within::after {
+            width: 100%;
+        }
+
+        /* Ripple effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.8s;
+        }
+
+        .ripple:active::after {
+            transform: scale(0, 0);
+            opacity: 0.3;
+            transition: 0s;
+        }
+
+        /* Stagger children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: staggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+        .stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+        .stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+        .stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+        .stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+        .stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+
+        @keyframes staggerIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pulse dot */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            position: relative;
+        }
+
+        .pulse-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: rgba(16,185,129,0.3);
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* Ticket perforation */
+        .ticket-perforation {
+            position: relative;
+        }
+
+        .ticket-perforation::before,
+        .ticket-perforation::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #faf8f5;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .ticket-perforation::before {
+            left: -10px;
+        }
+
+        .ticket-perforation::after {
+            right: -10px;
+        }
+
+        /* Number counter animation */
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Smooth image loading */
+        .img-fade {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .img-fade.loaded {
+            opacity: 1;
+        }
+
+        /* Horizontal scroll snap */
+        .snap-scroll {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .snap-scroll > * {
+            scroll-snap-align: start;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Wave animation for audio */
+        .wave-bar {
+            width: 3px;
+            background: #d49a1e;
+            border-radius: 2px;
+            animation: wave 1.2s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes wave {
+            0%, 100% { height: 8px; }
+            50% { height: 20px; }
+        }
+
+        /* Status indicator */
+        .status-live {
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+            animation: livePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* ==================== HERO SLIDESHOW ==================== */
+        .hero-slideshow {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            width: 300%;
+            will-change: transform;
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .hero-slide {
+            width: 33.333%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.08);
+            animation: heroZoom 20s ease-in-out infinite alternate;
+        }
+        .hero-slide:nth-child(2) { animation-delay: -7s; }
+        .hero-slide:nth-child(3) { animation-delay: -14s; }
+
+        .slide-dots {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .slide-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
+        }
+
+        .slide-dot.active {
+            background: #d49a1e;
+            width: 22px;
+            border-radius: 3px;
+            box-shadow: 0 0 8px rgba(212,154,30,0.5);
+        }
+
+        /* ==================== COUNTDOWN TIMER ==================== */
+        .countdown-strip {
+            background: linear-gradient(135deg, rgba(15,10,5,0.96) 0%, rgba(44,28,8,0.98) 100%);
+            border-top: 1px solid rgba(212,154,30,0.25);
+            border-bottom: 1px solid rgba(212,154,30,0.1);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-strip::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(212,154,30,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .countdown-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(212,154,30,0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            line-height: 1.4;
+            flex-shrink: 0;
+        }
+
+        .countdown-boxes {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .countdown-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(212,154,30,0.07);
+            border: 1px solid rgba(212,154,30,0.18);
+            border-radius: 12px;
+            padding: 8px 10px;
+            min-width: 54px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .countdown-box::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 1px;
+            background: rgba(212,154,30,0.08);
+        }
+
+        .countdown-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #e6b83c;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 20px rgba(212,154,30,0.4);
+            transition: all 0.2s ease;
+        }
+
+        .countdown-num.flip {
+            animation: numFlip 0.3s ease;
+        }
+
+        @keyframes numFlip {
+            0% { transform: translateY(-4px); opacity: 0.6; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .countdown-unit {
+            font-size: 8px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 3px;
+        }
+
+        .countdown-sep {
+            font-size: 18px;
+            color: rgba(212,154,30,0.5);
+            font-weight: 700;
+            margin-bottom: 6px;
+            animation: sepPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes sepPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .countdown-event-label {
+            font-size: 9px;
+            color: rgba(212,154,30,0.6);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            flex-shrink: 0;
+            text-align: right;
+        }
+
+        /* ==================== GODLY COLORS ==================== */
+        .godly-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .godly-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #d49a1e, #b87a16);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(180,122,22,0.25);
+            flex-shrink: 0;
+        }
+
+        .color-card {
+            border-radius: 20px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .color-card:active {
+            transform: scale(0.97);
+        }
+
+        .color-card-glow {
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(30px);
+            pointer-events: none;
+        }
+
+        .color-swatch {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+        }
+
+        .color-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .color-meaning {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+
+        .color-verse-block {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top-width: 1px;
+            border-top-style: solid;
+        }
+
+        .color-verse-text {
+            font-size: 11px;
+            font-style: italic;
+            line-height: 1.55;
+            opacity: 0.78;
+        }
+
+        .color-verse-ref {
+            font-size: 9.5px;
+            font-weight: 700;
+            font-style: normal;
+            opacity: 0.55;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 5px;
+        }
+
+        /* ==================== HERO PARTICLES ==================== */
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .hero-particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: pFloat linear infinite;
+        }
+
+        @keyframes pFloat {
+            0%   { transform: translateY(0) scale(0); opacity: 0; }
+            8%   { opacity: 1; }
+            92%  { opacity: 0.6; }
+            100% { transform: translateY(-380px) scale(1.2); opacity: 0; }
+        }
+
+        /* ==================== ENHANCED ANIMATIONS ==================== */
+        .glass-card {
+            transition: box-shadow 0.3s ease, transform 0.2s ease !important;
+        }
+        .glass-card:active {
+            transform: scale(0.975);
+        }
+
+        .nav-item.active .nav-icon {
+            animation: navBounce 0.4s cubic-bezier(0.36,0.07,0.19,0.97) both;
+        }
+        @keyframes navBounce {
+            0%   { transform: translateY(-2px); }
+            40%  { transform: translateY(-7px); }
+            70%  { transform: translateY(-3px); }
+            100% { transform: translateY(-2px); }
+        }
+
+        .btn-primary {
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s ease !important;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(180,122,22,0.35), 0 2px 8px rgba(180,122,22,0.2), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+        }
+
+        /* Card entry animation */
+        .card-enter {
+            opacity: 0;
+            transform: translateY(20px) scale(0.97);
+            animation: cardEnter 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        @keyframes cardEnter {
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Schedule item hover */
+        .schedule-item {
+            transition: all 0.25s ease;
+        }
+        .schedule-item:active {
+            transform: scale(0.98);
+            background: rgba(212,154,30,0.04);
+        }
+
+        /* Live badge pulse */
+        .live-glow {
+            animation: liveGlow 2s ease-in-out infinite;
+        }
+        @keyframes liveGlow {
+            0%, 100% { box-shadow: 0 0 6px rgba(212,154,30,0.3); }
+            50%  { box-shadow: 0 0 18px rgba(212,154,30,0.7); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container" id="app">
+        <!-- Toast -->
+        <div class="toast" id="toast">
+            <i class="fas fa-check-circle text-emerald-400"></i>
+            <span id="toastMessage">Notification</span>
+        </div>
+
+        <!-- ==================== HOME SCREEN ==================== -->
+        <div class="screen active" id="screen-home">
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <div class="hero-slideshow" id="heroSlideshow">
+                    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1507692049790-de58290a4334?w=800&q=80')"></div>
+                    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80')"></div>
+                    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80')"></div>
+                </div>
+                <div class="hero-particles" id="heroParticles"></div>
+                <div class="slide-dots" id="slideDots">
+                    <div class="slide-dot active" onclick="goToSlide(0)"></div>
+                    <div class="slide-dot" onclick="goToSlide(1)"></div>
+                    <div class="slide-dot" onclick="goToSlide(2)"></div>
+                </div>
+                <div class="absolute top-0 left-0 right-0 z-10 p-6 pt-10">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
+                                <i class="fas fa-cross text-white/90 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-white/60 text-[10px] font-semibold tracking-widest uppercase">MFMCAASO YOUTH CHURCH</p>
+                                <p class="text-white/90 text-[10px] font-medium leading-tight">(UPPER ROOM TABERNACLE)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 tap-scale cursor-pointer" onclick="navigateTo('notifications')">
+                                <i class="fas fa-bell text-white/80 text-xs"></i>
+                                <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 rounded-full text-[8px] text-white flex items-center justify-center font-bold">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 z-10 p-6 pb-8">
+                    <div class="date-badge inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 animate-text-in">
+                        <i class="fas fa-calendar-alt text-church-600 text-xs"></i>
+                        <span class="text-church-700 text-xs font-bold tracking-wide">August 30, 2026</span>
+                    </div>
+                    <h1 class="font-display text-2xl font-bold text-white leading-tight mb-2 animate-text-in" style="text-shadow: 0 2px 20px rgba(0,0,0,0.3);">
+                        Receiving The Purging Fire<br>
+                        <span class="text-gold-300 italic font-medium text-xl">Of The Holy Spirit</span>
+                    </h1>
+                    <p class="text-white/80 text-[11px] font-medium leading-relaxed animate-text-in tracking-wide">
+                        2 Tim 2:19-21 &nbsp;·&nbsp; Acts 2:3-4 &nbsp;·&nbsp; Malachi 3:2
+                    </p>
+                </div>
+            </div>
+
+            <!-- ==================== COUNTDOWN TIMER ==================== -->
+            <div class="countdown-strip" id="countdownStrip">
+                <div class="countdown-label">Conference<br>Begins In</div>
+                <div class="countdown-boxes">
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cdDays">00</span>
+                        <span class="countdown-unit">Days</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cdHours">00</span>
+                        <span class="countdown-unit">Hrs</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cdMins">00</span>
+                        <span class="countdown-unit">Min</span>
+                    </div>
+                    <div class="countdown-sep">:</div>
+                    <div class="countdown-box">
+                        <span class="countdown-num" id="cdSecs">00</span>
+                        <span class="countdown-unit">Sec</span>
+                    </div>
+                </div>
+                <div class="countdown-event-label">Aug 30<br>2026</div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="px-5 -mt-6 relative z-20">
+                <div class="grid grid-cols-2 gap-3 stagger-children mb-4">
+                    <button onclick="navigateTo('register')" class="glass-card rounded-2xl p-4 text-left tap-scale ripple group">
+                        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center mb-3 shadow-lg shadow-gold-500/20 group-hover:shadow-gold-500/30 transition-shadow">
+                            <i class="fas fa-user-plus text-white text-sm"></i>
+                        </div>
+                        <p class="font-semibold text-church-800 text-sm">Register</p>
+                        <p class="text-church-400 text-[11px] mt-0.5">Secure your spot</p>
+                    </button>
+                    <button onclick="navigateTo('checkin')" class="glass-card rounded-2xl p-4 text-left tap-scale ripple group">
+                        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center mb-3 shadow-lg shadow-emerald-500/20 group-hover:shadow-emerald-500/30 transition-shadow">
+                            <i class="fas fa-qrcode text-white text-sm"></i>
+                        </div>
+                        <p class="font-semibold text-church-800 text-sm">Check-In</p>
+                        <p class="text-church-400 text-[11px] mt-0.5">Verify attendance</p>
+                    </button>
+                </div>
+                
+                <!-- Feature Highlights (Scrollable) -->
+                <div class="flex gap-3 overflow-x-auto snap-scroll pb-2 -mx-5 px-5 stagger-children" style="scrollbar-width: none;">
+                    <button onclick="navigateTo('feedback')" class="flex-shrink-0 w-[130px] glass-card rounded-2xl p-4 text-left tap-scale ripple">
+                        <div class="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center mb-3 border border-amber-100">
+                            <i class="fas fa-comment-dots text-amber-600 text-xs"></i>
+                        </div>
+                        <p class="font-semibold text-church-800 text-xs">Feedback</p>
+                        <p class="text-church-400 text-[9px] mt-0.5">Share your thoughts</p>
+                    </button>
+                    <button onclick="navigateTo('colors')" class="flex-shrink-0 w-[130px] glass-card rounded-2xl p-4 text-left tap-scale ripple">
+                        <div class="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center mb-3 border border-purple-100">
+                            <i class="fas fa-palette text-purple-600 text-xs"></i>
+                        </div>
+                        <p class="font-semibold text-church-800 text-xs">Team Colors</p>
+                        <p class="text-church-400 text-[9px] mt-0.5">Find your team</p>
+                    </button>
+                    <button onclick="navigateTo('prayer-wall')" class="flex-shrink-0 w-[130px] glass-card rounded-2xl p-4 text-left tap-scale ripple">
+                        <div class="w-9 h-9 rounded-xl bg-church-50 flex items-center justify-center mb-3 border border-church-100">
+                            <i class="fas fa-praying-hands text-church-600 text-xs"></i>
+                        </div>
+                        <p class="font-semibold text-church-800 text-xs">Prayer Wall</p>
+                        <p class="text-church-400 text-[9px] mt-0.5">Submit & pray</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Event Schedule -->
+            <div class="px-5 mt-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-display text-lg font-bold text-church-900">Program Highlights</h2>
+                    <button class="text-gold-600 text-xs font-semibold flex items-center gap-1 tap-scale" onclick="navigateTo('schedule')">
+                        Full Schedule <i class="fas fa-chevron-right text-[10px]"></i>
+                    </button>
+                </div>
+                <div class="space-y-3 stagger-children">
+                    <div class="glass-card rounded-2xl p-4 flex items-start gap-4 tap-scale">
+                        <div class="flex flex-col items-center min-w-[52px]">
+                            <span class="text-gold-600 font-bold text-lg leading-none">07</span>
+                            <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">25 AM</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-church-800 text-sm">Opening: The Word</p>
+                            <p class="text-church-400 text-xs mt-0.5">Upper Room Tabernacle</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="px-2 py-0.5 bg-gold-50 text-gold-700 text-[10px] font-bold rounded-full border border-gold-200">Prompt</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4 flex items-start gap-4 tap-scale">
+                        <div class="flex flex-col items-center min-w-[52px]">
+                            <span class="text-church-600 font-bold text-lg leading-none">10</span>
+                            <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">00 AM</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-church-800 text-sm">Workshop / Interactive</p>
+                            <p class="text-church-400 text-xs mt-0.5">Group Sessions</p>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4 flex items-start gap-4 tap-scale">
+                        <div class="flex flex-col items-center min-w-[52px]">
+                            <span class="text-church-600 font-bold text-lg leading-none">12</span>
+                            <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">30 PM</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-church-800 text-sm">Bible Quiz & Games</p>
+                            <p class="text-church-400 text-xs mt-0.5">Main Auditorium</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Speaker Highlights -->
+            <div class="px-5 mt-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-display text-lg font-bold text-church-900">Featured Ministers</h2>
+                </div>
+                <div class="flex gap-3 overflow-x-auto snap-scroll pb-2 -mx-5 px-5" style="scrollbar-width: none;">
+                    <div class="flex-shrink-0 w-[140px] glass-card rounded-2xl overflow-hidden tap-scale">
+                        <div class="h-[100px] bg-gradient-to-br from-church-400 to-church-600 flex items-center justify-center">
+                            <i class="fas fa-user-tie text-white/40 text-3xl"></i>
+                        </div>
+                        <div class="p-3">
+                            <p class="font-semibold text-church-800 text-xs">Dr. Jeremiah Joseph Ajibola</p>
+                            <p class="text-gold-600 text-[10px] mt-0.5">Guest Minister</p>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-[140px] glass-card rounded-2xl overflow-hidden tap-scale">
+                        <div class="h-[100px] bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
+                            <i class="fas fa-user text-white/40 text-3xl"></i>
+                        </div>
+                        <div class="p-3">
+                            <p class="font-semibold text-church-800 text-xs">Pastor Blessing</p>
+                            <p class="text-gold-600 text-[10px] mt-0.5">Pastor in Charge</p>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-[140px] glass-card rounded-2xl overflow-hidden tap-scale">
+                        <div class="h-[100px] bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+                            <i class="fas fa-user text-white/40 text-3xl"></i>
+                        </div>
+                        <div class="p-3">
+                            <p class="font-semibold text-church-800 text-xs">Pastor Dayo</p>
+                            <p class="text-gold-600 text-[10px] mt-0.5">Pastor in Charge</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements -->
+            <div class="px-5 mt-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-display text-lg font-bold text-church-900">Announcements</h2>
+                </div>
+                <div class="space-y-3 stagger-children">
+                    <div class="glass-card rounded-2xl p-4 flex items-start gap-3 tap-scale">
+                        <div class="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0 border border-amber-100">
+                            <i class="fas fa-bullhorn text-amber-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-church-800 text-sm">Early Bird Registration Open</p>
+                            <p class="text-church-400 text-xs mt-0.5 leading-relaxed">Register before July 15th to get exclusive conference merchandise and priority seating.</p>
+                            <p class="text-church-300 text-[10px] mt-2">2 days ago</p>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4 flex items-start gap-3 tap-scale">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0 border border-emerald-100">
+                            <i class="fas fa-hand-holding-heart text-emerald-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-church-800 text-sm">Volunteer Sign-Up Available</p>
+                            <p class="text-church-400 text-xs mt-0.5 leading-relaxed">Join our team of volunteers and be part of making this conference memorable.</p>
+                            <p class="text-church-300 text-[10px] mt-2">5 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- (Colors moved to separate screen) -->
+
+        </div>
+
+        <!-- ==================== REGISTRATION SCREEN ==================== -->
+        <div class="screen" id="screen-register">
+            <!-- Header -->
+            <div class="sticky top-0 z-30 bg-church-50/95 backdrop-blur-xl border-b border-church-200/30">
+                <div class="flex items-center gap-3 px-5 py-4">
+                    <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-church-200/30 tap-scale">
+                        <i class="fas fa-arrow-left text-church-600 text-xs"></i>
+                    </button>
+                    <div>
+                        <h1 class="font-display text-lg font-bold text-church-900">Registration</h1>
+                        <p class="text-church-400 text-[11px]">Complete your conference registration</p>
+                    </div>
+                </div>
+                <!-- Progress -->
+                <div class="px-5 pb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="progress-step active" id="step1">1</div>
+                        <div class="progress-line completed" id="line1"></div>
+                        <div class="progress-step pending" id="step2">2</div>
+                        <div class="progress-line" id="line2"></div>
+                        <div class="progress-step pending" id="step3">3</div>
+                    </div>
+                    <div class="flex justify-between mt-1.5 px-1">
+                        <span class="text-[10px] font-semibold text-gold-600">Details</span>
+                        <span class="text-[10px] font-semibold text-church-300" id="stepLabel2">Confirm</span>
+                        <span class="text-[10px] font-semibold text-church-300" id="stepLabel3">Success</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="px-5 pt-5 pb-8" id="registrationForm">
+                <div class="space-y-5">
+                    <div class="animated-border">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="regName" placeholder="Enter your full name" oninput="validateForm()">
+                    </div>
+                    <div class="animated-border">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="regEmail" placeholder="your@email.com" oninput="validateForm()">
+                    </div>
+                    <div class="animated-border">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" id="regPhone" placeholder="+234 800 000 0000" oninput="validateForm()">
+                    </div>
+                    <div class="animated-border">
+                        <label class="form-label">Age Group</label>
+                        <select class="form-input" id="regAge" onchange="validateForm()">
+                            <option value="">Select age group</option>
+                            <option value="13-17">13 - 17 years</option>
+                            <option value="18-25">18 - 25 years</option>
+                            <option value="26-35">26 - 35 years</option>
+                            <option value="36+">36+ years</option>
+                        </select>
+                    </div>
+                    <div class="animated-border">
+                        <label class="form-label">Church/Branch</label>
+                        <input type="text" class="form-input" id="regChurch" placeholder="Your church or branch name" oninput="validateForm()">
+                    </div>
+                    <div class="animated-border">
+                        <label class="form-label">Dietary Requirements (Optional)</label>
+                        <input type="text" class="form-input" id="regDiet" placeholder="Any allergies or preferences">
+                    </div>
+                    <div class="pt-2">
+                        <label class="flex items-start gap-3 cursor-pointer tap-scale">
+                            <input type="checkbox" id="regTerms" class="mt-0.5 w-4 h-4 rounded border-church-300 text-gold-500 focus:ring-gold-400" onchange="validateForm()">
+                            <span class="text-church-500 text-xs leading-relaxed">I agree to the terms and conditions and consent to receiving conference updates via email and SMS.</span>
+                        </label>
+                    </div>
+                </div>
+                <button class="btn-primary w-full py-4 rounded-2xl mt-8 text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed ripple" id="submitRegBtn" onclick="submitRegistration()" disabled>
+                    Complete Registration
+                </button>
+            </div>
+
+            <!-- Confirmation Step -->
+            <div class="px-5 pt-5 pb-8 hidden" id="confirmationStep">
+                <div class="glass-card rounded-2xl p-5 mb-5">
+                    <h3 class="font-display text-base font-bold text-church-900 mb-4">Review Your Details</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2 border-b border-church-100">
+                            <span class="text-church-400 text-xs">Name</span>
+                            <span class="text-church-800 text-sm font-semibold" id="confirmName">--</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-church-100">
+                            <span class="text-church-400 text-xs">Email</span>
+                            <span class="text-church-800 text-sm font-semibold" id="confirmEmail">--</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-church-100">
+                            <span class="text-church-400 text-xs">Phone</span>
+                            <span class="text-church-800 text-sm font-semibold" id="confirmPhone">--</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-church-100">
+                            <span class="text-church-400 text-xs">Age Group</span>
+                            <span class="text-church-800 text-sm font-semibold" id="confirmAge">--</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2">
+                            <span class="text-church-400 text-xs">Church</span>
+                            <span class="text-church-800 text-sm font-semibold" id="confirmChurch">--</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <button class="btn-secondary flex-1 py-3.5 rounded-2xl text-sm font-semibold tap-scale" onclick="backToForm()">
+                        Edit Details
+                    </button>
+                    <button class="btn-primary flex-1 py-3.5 rounded-2xl text-sm font-semibold tap-scale ripple" onclick="confirmRegistration()">
+                        Confirm & Register
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== REGISTRATION SUCCESS SCREEN ==================== -->
+        <div class="screen" id="screen-success">
+            <div class="min-h-full flex flex-col items-center justify-center px-6 py-12 text-center relative overflow-hidden">
+                <!-- Particles -->
+                <div id="confettiContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+                <div class="success-ring mb-6 bg-emerald-50">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline class="success-check" points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+
+                <h2 class="font-display text-2xl font-bold text-church-900 mb-2 animate-text-in">Registration Successful!</h2>
+                <p class="text-church-500 text-sm mb-6 max-w-[280px] mx-auto animate-text-in">Your registration for the MFMCAASO Youth Church Bible Conference 2026 has been confirmed.</p>
+
+                <div class="glass-card rounded-2xl p-5 w-full max-w-[320px] mb-6 ticket-perforation animate-text-in">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-ticket-alt text-gold-500 text-sm"></i>
+                            <span class="text-church-400 text-xs font-semibold">Registration ID</span>
+                        </div>
+                        <button class="text-gold-600 text-[10px] font-bold flex items-center gap-1 tap-scale" onclick="copyRegId()">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <p class="font-mono text-xl font-bold text-church-900 tracking-wider mb-1" id="successRegId">MFMCYCBC26-0000</p>
+                    <div class="section-divider my-3"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="text-left">
+                            <p class="text-church-400 text-[10px]">Group Assignment</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="w-3 h-3 rounded-full" id="successGroupDot"></span>
+                                <span class="font-bold text-sm" id="successGroupName">--</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-church-400 text-[10px]">Date</p>
+                            <p class="font-bold text-sm text-church-800">Aug 30, 2026</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full max-w-[320px] space-y-3 animate-text-in">
+                    <button onclick="navigateTo('checkin')" class="btn-primary w-full py-4 rounded-2xl text-sm font-semibold tap-scale ripple">
+                        Continue to Check-In
+                    </button>
+                    <button onclick="navigateTo('home')" class="btn-secondary w-full py-3.5 rounded-2xl text-sm font-semibold tap-scale">
+                        Back to Home
+                    </button>
+                </div>
+
+                <p class="text-church-300 text-[11px] mt-6 animate-text-in">A confirmation email has been sent to your inbox.</p>
+            </div>
+        </div>
+
+        <!-- ==================== CHECK-IN SCREEN ==================== -->
+        <div class="screen" id="screen-checkin">
+            <!-- Header -->
+            <div class="sticky top-0 z-30 bg-church-50/95 backdrop-blur-xl border-b border-church-200/30">
+                <div class="flex items-center gap-3 px-5 py-4">
+                    <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-church-200/30 tap-scale">
+                        <i class="fas fa-arrow-left text-church-600 text-xs"></i>
+                    </button>
+                    <div>
+                        <h1 class="font-display text-lg font-bold text-church-900">Check-In</h1>
+                        <p class="text-church-400 text-[11px]">Verify your conference attendance</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-5 pt-5 pb-8">
+                <!-- Check-In Input -->
+                <div class="glass-card rounded-2xl p-5 mb-5" id="checkinInputSection">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-gold-50 flex items-center justify-center border border-gold-100">
+                            <i class="fas fa-id-card text-gold-600 text-xs"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-church-800 text-sm">Enter Registration ID</p>
+                            <p class="text-church-400 text-[10px]">Or scan your QR code</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mb-3">
+                        <input type="text" class="form-input flex-1 font-mono text-sm uppercase" id="checkinId" placeholder="MFMCYCBC26-XXXX" oninput="this.value = this.value.toUpperCase()">
+                        <button class="w-12 h-12 rounded-2xl bg-church-800 flex items-center justify-center tap-scale" onclick="simulateQRScan()">
+                            <i class="fas fa-qrcode text-white text-sm"></i>
+                        </button>
+                    </div>
+                    <button class="btn-primary w-full py-3.5 rounded-2xl text-sm font-semibold tap-scale ripple" onclick="performCheckin()">
+                        Verify & Check-In
+                    </button>
+                </div>
+
+                <!-- Check-In Result -->
+                <div class="hidden" id="checkinResult">
+                    <div class="glass-card rounded-2xl p-5 mb-4 border-2 border-emerald-200/50">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-100">
+                                <i class="fas fa-check text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-church-800 text-sm">Check-In Verified</p>
+                                <p class="text-emerald-600 text-[10px] font-semibold">Welcome to the conference!</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center py-2 border-b border-church-100">
+                                <span class="text-church-400 text-xs">Name</span>
+                                <span class="text-church-800 text-sm font-semibold" id="checkinName">--</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-church-100">
+                                <span class="text-church-400 text-xs">Registration ID</span>
+                                <span class="font-mono text-church-800 text-sm font-semibold" id="checkinRegId">--</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-church-100">
+                                <span class="text-church-400 text-xs">Email</span>
+                                <span class="text-church-800 text-sm font-semibold" id="checkinEmail">--</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-church-100">
+                                <span class="text-church-400 text-xs">Church</span>
+                                <span class="text-church-800 text-sm font-semibold" id="checkinChurch">--</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-church-400 text-xs">Assigned Group</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full" id="checkinGroupDot"></span>
+                                    <span class="font-bold text-sm" id="checkinGroupName">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Display -->
+                    <div class="glass-card rounded-2xl p-5 text-center">
+                        <p class="text-church-400 text-xs font-semibold mb-3">Present this QR code at the event stand</p>
+                        <div class="qr-container inline-block" id="checkinQR"></div>
+                        <p class="text-church-300 text-[10px] mt-3">Scan for instant verification</p>
+                    </div>
+
+                    <button onclick="resetCheckin()" class="btn-secondary w-full py-3.5 rounded-2xl text-sm font-semibold mt-4 tap-scale">
+                        Check In Another Attendee
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== FEEDBACK SCREEN ==================== -->
+        <div class="screen" id="screen-feedback">
+            <!-- Header -->
+            <div class="sticky top-0 z-30 bg-church-50/95 backdrop-blur-xl border-b border-church-200/30">
+                <div class="flex items-center gap-3 px-5 py-4">
+                    <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-church-200/30 tap-scale">
+                        <i class="fas fa-arrow-left text-church-600 text-xs"></i>
+                    </button>
+                    <div>
+                        <h1 class="font-display text-lg font-bold text-church-900">Feedback</h1>
+                        <p class="text-church-400 text-[11px]">Share your conference experience</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-5 pt-5 pb-8">
+                <!-- Overall Rating -->
+                <div class="glass-card rounded-2xl p-5 mb-4">
+                    <p class="font-semibold text-church-800 text-sm mb-3">How would you rate the conference?</p>
+                    <div class="star-rating justify-center mb-3" id="overallRating">
+                        <span class="star" data-value="1"><i class="fas fa-star"></i></span>
+                        <span class="star" data-value="2"><i class="fas fa-star"></i></span>
+                        <span class="star" data-value="3"><i class="fas fa-star"></i></span>
+                        <span class="star" data-value="4"><i class="fas fa-star"></i></span>
+                        <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+                    </div>
+                    <p class="text-center text-gold-600 text-xs font-semibold" id="ratingText">Tap to rate</p>
+                </div>
+
+                <!-- Category Ratings -->
+                <div class="glass-card rounded-2xl p-5 mb-4">
+                    <p class="font-semibold text-church-800 text-sm mb-4">Rate Specific Areas</p>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-church-600 text-xs font-medium">Worship & Music</span>
+                                <span class="text-gold-600 text-xs font-bold" id="worshipRatingValue">0/5</span>
+                            </div>
+                            <div class="star-rating" id="worshipRating">
+                                <span class="star text-lg" data-value="1"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="2"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="3"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="4"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="5"><i class="fas fa-star"></i></span>
+                            </div>
+                        </div>
+                        <div class="section-divider"></div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-church-600 text-xs font-medium">Teaching & Sermons</span>
+                                <span class="text-gold-600 text-xs font-bold" id="teachingRatingValue">0/5</span>
+                            </div>
+                            <div class="star-rating" id="teachingRating">
+                                <span class="star text-lg" data-value="1"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="2"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="3"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="4"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="5"><i class="fas fa-star"></i></span>
+                            </div>
+                        </div>
+                        <div class="section-divider"></div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-church-600 text-xs font-medium">Organization & Logistics</span>
+                                <span class="text-gold-600 text-xs font-bold" id="logisticsRatingValue">0/5</span>
+                            </div>
+                            <div class="star-rating" id="logisticsRating">
+                                <span class="star text-lg" data-value="1"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="2"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="3"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="4"><i class="fas fa-star"></i></span>
+                                <span class="star text-lg" data-value="5"><i class="fas fa-star"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments -->
+                <div class="glass-card rounded-2xl p-5 mb-4">
+                    <p class="font-semibold text-church-800 text-sm mb-3">Your Comments</p>
+                    <textarea class="form-input resize-none" id="feedbackComment" rows="4" placeholder="What did you enjoy most? What can we improve?"></textarea>
+                </div>
+
+                <!-- Program Review -->
+                <div class="glass-card rounded-2xl p-5 mb-4">
+                    <p class="font-semibold text-church-800 text-sm mb-3">Which session impacted you most?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-xl bg-church-50/50 border border-church-100/50 cursor-pointer tap-scale">
+                            <input type="radio" name="bestSession" value="opening" class="w-4 h-4 text-gold-500 focus:ring-gold-400">
+                            <span class="text-church-700 text-xs font-medium">Opening Ceremony</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl bg-church-50/50 border border-church-100/50 cursor-pointer tap-scale">
+                            <input type="radio" name="bestSession" value="keynote" class="w-4 h-4 text-gold-500 focus:ring-gold-400">
+                            <span class="text-church-700 text-xs font-medium">Keynote Address</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl bg-church-50/50 border border-church-100/50 cursor-pointer tap-scale">
+                            <input type="radio" name="bestSession" value="workshop" class="w-4 h-4 text-gold-500 focus:ring-gold-400">
+                            <span class="text-church-700 text-xs font-medium">Workshop Sessions</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl bg-church-50/50 border border-church-100/50 cursor-pointer tap-scale">
+                            <input type="radio" name="bestSession" value="worship" class="w-4 h-4 text-gold-500 focus:ring-gold-400">
+                            <span class="text-church-700 text-xs font-medium">Worship Experience</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn-primary w-full py-4 rounded-2xl text-sm font-semibold tap-scale ripple" onclick="submitFeedback()">
+                    Submit Feedback
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== ADMIN DASHBOARD SCREEN ==================== -->
+        <div class="screen custom-scroll" id="screen-admin">
+            <!-- Header -->
+            <div class="sticky top-0 z-30 bg-church-900 text-white">
+                <div class="flex items-center justify-between px-5 py-4">
+                    <div class="flex items-center gap-3">
+                        <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center tap-scale">
+                            <i class="fas fa-arrow-left text-white/80 text-xs"></i>
+                        </button>
+                        <div>
+                            <h1 class="font-display text-lg font-bold">Admin Dashboard</h1>
+                            <p class="text-white/50 text-[11px]">Conference Analytics</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="pulse-dot"></div>
+                        <span class="text-emerald-400 text-[10px] font-semibold">Live</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-5 pt-5 pb-8 bg-church-50 min-h-full">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 gap-3 mb-5 stagger-children">
+                    <div class="chart-card">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-7 h-7 rounded-lg bg-gold-50 flex items-center justify-center">
+                                <i class="fas fa-users text-gold-600 text-[10px]"></i>
+                            </div>
+                            <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">Total Reg.</span>
+                        </div>
+                        <p class="font-display text-2xl font-bold text-church-900 counter" id="statTotalReg">1,247</p>
+                        <p class="text-emerald-600 text-[10px] font-semibold mt-1 flex items-center gap-1">
+                            <i class="fas fa-arrow-up text-[8px]"></i> +12% this week
+                        </p>
+                    </div>
+                    <div class="chart-card">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center">
+                                <i class="fas fa-check-circle text-emerald-600 text-[10px]"></i>
+                            </div>
+                            <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">Checked In</span>
+                        </div>
+                        <p class="font-display text-2xl font-bold text-church-900 counter" id="statCheckedIn">892</p>
+                        <p class="text-church-400 text-[10px] mt-1">71.5% attendance rate</p>
+                    </div>
+                    <div class="chart-card">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-7 h-7 rounded-lg bg-royal-50 flex items-center justify-center">
+                                <i class="fas fa-star text-royal-600 text-[10px]"></i>
+                            </div>
+                            <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">Avg. Rating</span>
+                        </div>
+                        <p class="font-display text-2xl font-bold text-church-900 counter" id="statAvgRating">4.7</p>
+                        <p class="text-church-400 text-[10px] mt-1">Out of 5.0 stars</p>
+                    </div>
+                    <div class="chart-card">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center">
+                                <i class="fas fa-clock text-amber-600 text-[10px]"></i>
+                            </div>
+                            <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">Days Left</span>
+                        </div>
+                        <p class="font-display text-2xl font-bold text-church-900 counter" id="statDaysLeft">45</p>
+                        <p class="text-church-400 text-[10px] mt-1">Until conference</p>
+                    </div>
+                </div>
+
+                <!-- Registration Trends Chart -->
+                <div class="chart-card mb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-semibold text-church-800 text-sm">Registration Trends</p>
+                            <p class="text-church-400 text-[10px]">Daily registrations over time</p>
+                        </div>
+                        <select class="text-[10px] bg-church-50 border border-church-200 rounded-lg px-2 py-1 text-church-600 font-medium">
+                            <option>Last 30 Days</option>
+                            <option>Last 7 Days</option>
+                        </select>
+                    </div>
+                    <div class="h-[180px]">
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Group Distribution -->
+                <div class="chart-card mb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-semibold text-church-800 text-sm">Group Distribution</p>
+                            <p class="text-church-400 text-[10px]">Color group assignments</p>
+                        </div>
+                    </div>
+                    <div class="h-[200px] flex items-center justify-center">
+                        <canvas id="groupChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Age Distribution -->
+                <div class="chart-card mb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-semibold text-church-800 text-sm">Age Distribution</p>
+                            <p class="text-church-400 text-[10px]">Attendee demographics</p>
+                        </div>
+                    </div>
+                    <div class="h-[160px]">
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Attendance Tracking -->
+                <div class="chart-card mb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-semibold text-church-800 text-sm">Session Attendance</p>
+                            <p class="text-church-400 text-[10px]">Real-time check-in tracking</p>
+                        </div>
+                        <span class="px-2 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-full border border-emerald-100">Live</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-church-600 text-xs font-medium">Opening Ceremony</span>
+                                <span class="text-church-800 text-xs font-bold">892 / 1,247</span>
+                            </div>
+                            <div class="h-2 bg-church-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-gold-400 to-gold-500 rounded-full transition-all duration-1000" style="width: 71.5%"></div>
+                            </div>
+                            <p class="text-church-300 text-[10px] mt-1">71.5% attendance</p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-church-600 text-xs font-medium">Keynote Address</span>
+                                <span class="text-church-800 text-xs font-bold">756 / 1,247</span>
+                            </div>
+                            <div class="h-2 bg-church-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-royal-400 to-royal-500 rounded-full transition-all duration-1000" style="width: 60.6%"></div>
+                            </div>
+                            <p class="text-church-300 text-[10px] mt-1">60.6% attendance</p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-church-600 text-xs font-medium">Workshop Sessions</span>
+                                <span class="text-church-800 text-xs font-bold">634 / 1,247</span>
+                            </div>
+                            <div class="h-2 bg-church-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-1000" style="width: 50.8%"></div>
+                            </div>
+                            <p class="text-church-300 text-[10px] mt-1">50.8% attendance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="chart-card mb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-semibold text-church-800 text-sm">Recent Activity</p>
+                            <p class="text-church-400 text-[10px]">Latest registrations and check-ins</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3" id="recentActivity">
+                        <div class="flex items-center gap-3 p-3 rounded-xl bg-church-50/50">
+                            <div class="w-8 h-8 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-user-plus text-gold-600 text-[10px]"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-church-800 text-xs font-semibold truncate">New registration: Emmanuel O.</p>
+                                <p class="text-church-400 text-[10px]">Group: Sapphire</p>
+                            </div>
+                            <span class="text-church-300 text-[10px]">2m ago</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl bg-church-50/50">
+                            <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-emerald-600 text-[10px]"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-church-800 text-xs font-semibold truncate">Check-in: Sarah K.</p>
+                                <p class="text-church-400 text-[10px]">Main Auditorium</p>
+                            </div>
+                            <span class="text-church-300 text-[10px]">5m ago</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl bg-church-50/50">
+                            <div class="w-8 h-8 rounded-full bg-royal-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-comment text-royal-600 text-[10px]"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-church-800 text-xs font-semibold truncate">Feedback: David M. (5 stars)</p>
+                                <p class="text-church-400 text-[10px]">"Amazing worship experience!"</p>
+                            </div>
+                            <span class="text-church-300 text-[10px]">12m ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="chart-card text-left tap-scale" onclick="showToast('Exporting report...')">
+                        <div class="w-9 h-9 rounded-xl bg-church-800 flex items-center justify-center mb-2">
+                            <i class="fas fa-download text-white text-xs"></i>
+                        </div>
+                        <p class="font-semibold text-church-800 text-xs">Export Report</p>
+                        <p class="text-church-400 text-[10px]">CSV / PDF</p>
+                    </button>
+                    <button class="chart-card text-left tap-scale" onclick="showToast('Broadcast message sent')">
+                        <div class="w-9 h-9 rounded-xl bg-gold-500 flex items-center justify-center mb-2">
+                            <i class="fas fa-broadcast-tower text-white text-xs"></i>
+                        </div>
+                        <p class="font-semibold text-church-800 text-xs">Broadcast</p>
+                        <p class="text-church-400 text-[10px]">Send notification</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== NEW SCREENS ==================== -->
+        <!-- PRAYER WALL -->
+        <div class="screen" id="screen-prayer-wall">
+            <div class="sticky top-0 z-30 bg-church-50/95 backdrop-blur-xl border-b border-church-200/30">
+                <div class="flex items-center gap-3 px-5 py-4">
+                    <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-church-200/30 tap-scale">
+                        <i class="fas fa-arrow-left text-church-600 text-xs"></i>
+                    </button>
+                    <div>
+                        <h1 class="font-display text-lg font-bold text-church-900">Prayer Wall</h1>
+                        <p class="text-church-400 text-[11px]">Bear one another's burdens</p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-5 pt-5 pb-8">
+                <div class="glass-card rounded-2xl p-4 mb-6">
+                    <p class="font-semibold text-church-800 text-sm mb-2">Share a Prayer Request</p>
+                    <textarea class="form-input resize-none text-sm mb-3" rows="3" placeholder="What can we pray with you for? (Anonymous)"></textarea>
+                    <button class="btn-primary w-full py-3 rounded-xl text-sm font-semibold tap-scale ripple" onclick="showToast('Prayer request submitted anonymously!')">
+                        Submit Request
+                    </button>
+                </div>
+                <h3 class="font-display text-base font-bold text-church-900 mb-4">Recent Prayers</h3>
+                <div class="space-y-4 stagger-children">
+                    <div class="glass-card rounded-2xl p-4">
+                        <p class="text-church-800 text-sm leading-relaxed mb-3">"Praying for divine direction in my academics and career choices this year. That I will walk in God's perfect will."</p>
+                        <div class="flex items-center justify-between border-t border-church-100 pt-3">
+                            <span class="text-church-400 text-[10px]">Posted 2 hrs ago</span>
+                            <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="this.innerHTML='<i class=\'fas fa-praying-hands text-gold-500\'></i> Praying (15)'">
+                                <i class="fas fa-praying-hands"></i> Pray (14)
+                            </button>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4">
+                        <p class="text-church-800 text-sm leading-relaxed mb-3">"Asking God for healing for my mother who has been sick for the past three weeks. Believing God for a miracle."</p>
+                        <div class="flex items-center justify-between border-t border-church-100 pt-3">
+                            <span class="text-church-400 text-[10px]">Posted 5 hrs ago</span>
+                            <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="this.innerHTML='<i class=\'fas fa-praying-hands text-gold-500\'></i> Praying (43)'">
+                                <i class="fas fa-praying-hands"></i> Pray (42)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEAM COLORS -->
+        <div class="screen custom-scroll" id="screen-colors">
+            <div class="sticky top-0 z-30 bg-[#0f0a05]/95 backdrop-blur-xl border-b border-white/10 text-white">
+                <div class="flex items-center gap-3 px-5 py-4">
+                    <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center tap-scale">
+                        <i class="fas fa-arrow-left text-white/80 text-xs"></i>
+                    </button>
+                    <div>
+                        <h1 class="font-display text-lg font-bold">Team Colors</h1>
+                        <p class="text-white/50 text-[11px]">Symbolism & Scripture</p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-5 pt-6 pb-8 bg-[#0f0a05] min-h-full flex flex-col stagger-children">
+                <!-- 1. Royal Purple -->
+                <div class="color-card tap-scale" style="background:linear-gradient(135deg,#f5f3ff 0%,#ede9fe 100%);border:1px solid rgba(109,40,217,0.12);">
+                    <div class="color-card-glow" style="background:#7c3aed;"></div>
+                    <div class="flex items-start gap-3">
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);">
+                            <i class="fas fa-crown text-white"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="color-name" style="color:#5b21b6;">Royal Purple</p>
+                            <p class="color-meaning" style="color:#7c3aed;">Kingdom Authority &amp; Royalty</p>
+                            <div class="color-verse-block" style="border-color:rgba(109,40,217,0.12);">
+                                <p class="color-verse-text" style="color:#5b21b6;">&ldquo;And Mordecai went out...in royal apparel of blue and white, and with a great crown of gold.&rdquo;</p>
+                                <p class="color-verse-ref" style="color:#6d28d9;">— Esther 8:15 &nbsp;·&nbsp; Revelation 17:14</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Holy Gold -->
+                <div class="color-card tap-scale" style="background:linear-gradient(135deg,#fdf9ed 0%,#fef3c7 100%);border:1px solid rgba(180,122,22,0.15);">
+                    <div class="color-card-glow" style="background:#d49a1e;"></div>
+                    <div class="flex items-start gap-3">
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#e6b83c,#b87a16);">
+                            <i class="fas fa-star text-white"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="color-name" style="color:#92400e;">Holy Gold</p>
+                            <p class="color-meaning" style="color:#b87a16;">Divine Glory &amp; Sacred Honour</p>
+                            <div class="color-verse-block" style="border-color:rgba(180,122,22,0.12);">
+                                <p class="color-verse-text" style="color:#78350f;">&ldquo;The city was pure gold, like clear glass...more precious than gold, than much fine gold; sweeter also than honey.&rdquo;</p>
+                                <p class="color-verse-ref" style="color:#92400e;">— Revelation 21:18 &nbsp;·&nbsp; Psalm 19:10</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Crimson Red -->
+                <div class="color-card tap-scale" style="background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%);border:1px solid rgba(220,38,38,0.12);">
+                    <div class="color-card-glow" style="background:#ef4444;"></div>
+                    <div class="flex items-start gap-3">
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#f87171,#dc2626);">
+                            <i class="fas fa-heart text-white"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="color-name" style="color:#991b1b;">Crimson Red</p>
+                            <p class="color-meaning" style="color:#dc2626;">Blood of Jesus &amp; Redemption</p>
+                            <div class="color-verse-block" style="border-color:rgba(220,38,38,0.1);">
+                                <p class="color-verse-text" style="color:#991b1b;">&ldquo;Though your sins are like scarlet, they shall be as white as snow; though they are red like crimson, they shall be like wool.&rdquo;</p>
+                                <p class="color-verse-ref" style="color:#dc2626;">— Isaiah 1:18 &nbsp;·&nbsp; 1 John 1:7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Pure White -->
+                <div class="color-card tap-scale" style="background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%);border:1px solid rgba(100,116,139,0.14);">
+                    <div class="color-card-glow" style="background:#94a3b8;"></div>
+                    <div class="flex items-start gap-3">
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#cbd5e1,#475569);">
+                            <i class="fas fa-dove text-white"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="color-name" style="color:#1e293b;">Pure White</p>
+                            <p class="color-meaning" style="color:#475569;">Holiness &amp; Righteousness</p>
+                            <div class="color-verse-block" style="border-color:rgba(100,116,139,0.1);">
+                                <p class="color-verse-text" style="color:#334155;">&ldquo;Fine linen, bright and clean, was given her to wear. Fine linen stands for the righteous acts of God&rsquo;s holy people.&rdquo;</p>
+                                <p class="color-verse-ref" style="color:#475569;">— Revelation 19:8 &nbsp;·&nbsp; Isaiah 61:10</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Sapphire Blue -->
+                <div class="color-card tap-scale" style="background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:1px solid rgba(37,99,235,0.12);">
+                    <div class="color-card-glow" style="background:#3b82f6;"></div>
+                    <div class="flex items-start gap-3">
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#60a5fa,#2563eb);">
+                            <i class="fas fa-wind text-white"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="color-name" style="color:#1e40af;">Sapphire Blue</p>
+                            <p class="color-meaning" style="color:#2563eb;">The Holy Spirit &amp; Heavenly Realm</p>
+                            <div class="color-verse-block" style="border-color:rgba(37,99,235,0.1);">
+                                <p class="color-verse-text" style="color:#1e40af;">&ldquo;Above the vault over their heads was what looked like a throne of sapphire, lapis lazuli in appearance...&rdquo;</p>
+                                <p class="color-verse-ref" style="color:#2563eb;">— Ezekiel 1:26 &nbsp;·&nbsp; Revelation 4:3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Register CTA -->
+                <div class="mt-8 pb-4">
+                    <button class="w-full py-4 rounded-xl font-bold text-sm bg-gradient-to-r from-gold-400 to-gold-600 text-church-900 shadow-lg shadow-gold-500/20 tap-scale ripple" onclick="navigateTo('register')">
+                        Discover Your Team - Register Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FULL SCHEDULE -->
+        <div class="screen" id="screen-schedule">
+            <div class="sticky top-0 z-30 bg-church-50/95 backdrop-blur-xl border-b border-church-200/30">
+                <div class="flex items-center gap-3 px-5 py-4">
+                    <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-church-200/30 tap-scale">
+                        <i class="fas fa-arrow-left text-church-600 text-xs"></i>
+                    </button>
+                    <div>
+                        <h1 class="font-display text-lg font-bold text-church-900">Event Schedule</h1>
+                        <p class="text-church-400 text-[11px]">August 30, 2026</p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-5 pt-5 pb-8 space-y-4">
+                <div class="glass-card rounded-2xl p-4 flex items-start gap-4">
+                    <div class="flex flex-col items-center min-w-[52px]">
+                        <span class="text-gold-600 font-bold text-lg leading-none">07</span>
+                        <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">25 AM</span>
+                    </div>
+                    <div class="flex-1 min-w-0 border-l-2 border-gold-200 pl-4">
+                        <p class="font-semibold text-church-800 text-sm">Opening: The Word</p>
+                        <p class="text-church-400 text-xs mt-0.5">Upper Room Tabernacle</p>
+                        <span class="inline-block mt-2 px-2 py-0.5 bg-gold-50 text-gold-700 text-[10px] font-bold rounded-full border border-gold-200">Live</span>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-start gap-4">
+                    <div class="flex flex-col items-center min-w-[52px]">
+                        <span class="text-church-600 font-bold text-lg leading-none">10</span>
+                        <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">00 AM</span>
+                    </div>
+                    <div class="flex-1 min-w-0 border-l-2 border-church-200 pl-4">
+                        <p class="font-semibold text-church-800 text-sm">Workshop / Interactive</p>
+                        <p class="text-church-400 text-xs mt-0.5">Various Groups</p>
+                        <p class="text-church-400 text-[11px] mt-2 italic">Deep dive into The Purging Fire</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-start gap-4">
+                    <div class="flex flex-col items-center min-w-[52px]">
+                        <span class="text-church-600 font-bold text-lg leading-none">12</span>
+                        <span class="text-church-400 text-[10px] font-semibold uppercase tracking-wider">30 PM</span>
+                    </div>
+                    <div class="flex-1 min-w-0 border-l-2 border-church-200 pl-4">
+                        <p class="font-semibold text-church-800 text-sm">Bible Quiz & Games</p>
+                        <p class="text-church-400 text-xs mt-0.5">Main Auditorium</p>
+                        <span class="inline-block mt-2 px-2 py-0.5 bg-church-50 text-church-600 text-[10px] font-bold rounded-full border border-church-200">Interactive</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="screen" id="screen-notifications">
+            <div class="sticky top-0 z-30 bg-church-50/95 backdrop-blur-xl border-b border-church-200/30">
+                <div class="flex items-center gap-3 px-5 py-4">
+                    <button onclick="navigateTo('home')" class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-church-200/30 tap-scale">
+                        <i class="fas fa-arrow-left text-church-600 text-xs"></i>
+                    </button>
+                    <div>
+                        <h1 class="font-display text-lg font-bold text-church-900">Notifications</h1>
+                        <p class="text-church-400 text-[11px]">Recent updates & alerts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-5 pt-5 pb-8 space-y-3">
+                <div class="glass-card rounded-2xl p-4 flex gap-3 bg-red-50/30 border-l-4 border-l-red-500">
+                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-fire text-red-600 text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-church-800 text-sm">Purging Fire Theme Announced</p>
+                        <p class="text-church-500 text-[11px] mt-1">Get ready for an outpouring of the Holy Spirit. Ensure you register on time!</p>
+                        <p class="text-church-300 text-[9px] mt-2">10 mins ago</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex gap-3 border-l-4 border-l-gold-500">
+                    <div class="w-8 h-8 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-clock text-gold-600 text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-church-800 text-sm">Prompt Start Time</p>
+                        <p class="text-church-500 text-[11px] mt-1">Reminder: The conference begins exactly at 7:25 AM. Don't be late!</p>
+                        <p class="text-church-300 text-[9px] mt-2">1 hr ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== BOTTOM NAVIGATION ==================== -->
+        <nav class="bottom-nav" id="bottomNav">
+            <div class="flex items-center justify-around px-2">
+                <div class="nav-item active" onclick="navigateTo('home')" data-screen="home">
+                    <div class="nav-icon"><i class="fas fa-home"></i></div>
+                    <span class="nav-label">Home</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('register')" data-screen="register">
+                    <div class="nav-icon"><i class="fas fa-user-plus"></i></div>
+                    <span class="nav-label">Register</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('checkin')" data-screen="checkin">
+                    <div class="nav-icon"><i class="fas fa-qrcode"></i></div>
+                    <span class="nav-label">Check-In</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('feedback')" data-screen="feedback">
+                    <div class="nav-icon"><i class="fas fa-comment-dots"></i></div>
+                    <span class="nav-label">Feedback</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('admin')" data-screen="admin">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    <span class="nav-label">Admin</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // ==================== STATE MANAGEMENT ====================
+        const state = {
+            currentScreen: 'home',
+            registrations: [],
+            checkedIn: new Set(),
+            feedbacks: [],
+            ratings: { overall: 0, worship: 0, teaching: 0, logistics: 0 },
+            charts: {}
+        };
+
+        const GROUP_COLORS = {
+            'Royal Purple': { color: '#7C3AED', bg: 'bg-purple-500', light: 'bg-purple-50', text: 'text-purple-700' },
+            'Holy Gold': { color: '#D49A1E', bg: 'bg-yellow-500', light: 'bg-yellow-50', text: 'text-yellow-700' },
+            'Crimson Red': { color: '#DC2626', bg: 'bg-red-500', light: 'bg-red-50', text: 'text-red-700' },
+            'Pure White': { color: '#94A3B8', bg: 'bg-slate-500', light: 'bg-slate-50', text: 'text-slate-700' },
+            'Sapphire Blue': { color: '#2563EB', bg: 'bg-blue-500', light: 'bg-blue-50', text: 'text-blue-700' }
+        };
+
+        const GROUP_NAMES = Object.keys(GROUP_COLORS);
+
+        // ==================== NAVIGATION ====================
+        function navigateTo(screenId) {
+            const screens = document.querySelectorAll('.screen');
+            const navItems = document.querySelectorAll('.nav-item');
+            const bottomNav = document.getElementById('bottomNav');
+
+            // Special handling for success screen
+            if (screenId === 'success') {
+                screens.forEach(s => {
+                    s.classList.remove('active');
+                    s.classList.add('exit-left');
+                });
+                document.getElementById('screen-success').classList.remove('exit-left');
+                document.getElementById('screen-success').classList.add('active');
+                bottomNav.style.display = 'none';
+                state.currentScreen = 'success';
+                generateConfetti();
+                return;
+            }
+
+            // Hide all screens with exit animation
+            screens.forEach(s => {
+                if (s.id !== `screen-${screenId}`) {
+                    s.classList.remove('active');
+                    setTimeout(() => s.classList.remove('exit-left'), 450);
+                }
+            });
+
+            // Show target screen
+            const targetScreen = document.getElementById(`screen-${screenId}`);
+            if (targetScreen) {
+                targetScreen.classList.remove('exit-left');
+                targetScreen.classList.add('active');
+                targetScreen.scrollTop = 0;
+            }
+
+            // Update nav
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.screen === screenId) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Show/hide bottom nav
+            bottomNav.style.display = (screenId === 'register' || screenId === 'success') ? 'none' : 'flex';
+
+            state.currentScreen = screenId;
+
+            // Initialize charts if admin
+            if (screenId === 'admin') {
+                setTimeout(initCharts, 300);
+            }
+        }
+
+        // ==================== TOAST NOTIFICATIONS ====================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ==================== REGISTRATION ====================
+        let currentRegData = null;
+
+        function validateForm() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const age = document.getElementById('regAge').value;
+            const church = document.getElementById('regChurch').value.trim();
+            const terms = document.getElementById('regTerms').checked;
+
+            const isValid = name && email && phone && age && church && terms;
+            const btn = document.getElementById('submitRegBtn');
+            btn.disabled = !isValid;
+        }
+
+        function submitRegistration() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const age = document.getElementById('regAge').value;
+            const church = document.getElementById('regChurch').value.trim();
+
+            currentRegData = { name, email, phone, age, church };
+
+            // Update confirmation
+            document.getElementById('confirmName').textContent = name;
+            document.getElementById('confirmEmail').textContent = email;
+            document.getElementById('confirmPhone').textContent = phone;
+            document.getElementById('confirmAge').textContent = age;
+            document.getElementById('confirmChurch').textContent = church;
+
+            // Update progress
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step1').classList.add('completed');
+            document.getElementById('step1').innerHTML = '<i class="fas fa-check text-xs"></i>';
+            document.getElementById('step2').classList.remove('pending');
+            document.getElementById('step2').classList.add('active');
+            document.getElementById('line1').classList.add('completed');
+            document.getElementById('stepLabel2').classList.add('text-gold-600');
+
+            // Show confirmation
+            document.getElementById('registrationForm').classList.add('hidden');
+            document.getElementById('confirmationStep').classList.remove('hidden');
+        }
+
+        function backToForm() {
+            document.getElementById('registrationForm').classList.remove('hidden');
+            document.getElementById('confirmationStep').classList.add('hidden');
+
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step1').classList.remove('completed');
+            document.getElementById('step1').textContent = '1';
+            document.getElementById('step2').classList.add('pending');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('line1').classList.remove('completed');
+            document.getElementById('stepLabel2').classList.remove('text-gold-600');
+        }
+
+        function confirmRegistration() {
+            const regId = `MFMCYCBC26-${String(Math.floor(Math.random() * 9000) + 1000)}`;
+            const groupName = GROUP_NAMES[Math.floor(Math.random() * GROUP_NAMES.length)];
+            const groupInfo = GROUP_COLORS[groupName];
+
+            const registration = {
+                ...currentRegData,
+                id: regId,
+                group: groupName,
+                groupColor: groupInfo.color,
+                timestamp: new Date().toISOString()
+            };
+
+            state.registrations.push(registration);
+
+            // Update success screen
+            document.getElementById('successRegId').textContent = regId;
+            document.getElementById('successGroupName').textContent = groupName;
+            document.getElementById('successGroupName').style.color = groupInfo.color;
+            document.getElementById('successGroupDot').style.backgroundColor = groupInfo.color;
+
+            // Update progress
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step2').classList.add('completed');
+            document.getElementById('step2').innerHTML = '<i class="fas fa-check text-xs"></i>';
+            document.getElementById('step3').classList.remove('pending');
+            document.getElementById('step3').classList.add('active');
+            document.getElementById('line2').classList.add('completed');
+            document.getElementById('stepLabel3').classList.add('text-gold-600');
+
+            // Store for check-in
+            localStorage.setItem('lastRegistration', JSON.stringify(registration));
+
+            showToast('Registration confirmed! Email sent.');
+
+            setTimeout(() => {
+                navigateTo('success');
+            }, 500);
+        }
+
+        function copyRegId() {
+            const id = document.getElementById('successRegId').textContent;
+            navigator.clipboard?.writeText(id).then(() => showToast('Registration ID copied!'));
+        }
+
+        // ==================== CONFETTI ====================
+        function generateConfetti() {
+            const container = document.getElementById('confettiContainer');
+            container.innerHTML = '';
+            const colors = ['#d49a1e', '#b87a16', '#059669', '#7c3aed', '#DC2626', '#2563EB'];
+
+            for (let i = 0; i < 30; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 2 + 's';
+                piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+                piece.style.width = (4 + Math.random() * 6) + 'px';
+                piece.style.height = (4 + Math.random() * 6) + 'px';
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                container.appendChild(piece);
+            }
+        }
+
+        // ==================== CHECK-IN ====================
+        function simulateQRScan() {
+            const lastReg = localStorage.getItem('lastRegistration');
+            if (lastReg) {
+                const reg = JSON.parse(lastReg);
+                document.getElementById('checkinId').value = reg.id;
+                showToast('QR code scanned successfully');
+            } else {
+                showToast('No recent registration found');
+            }
+        }
+
+        function performCheckin() {
+            const id = document.getElementById('checkinId').value.trim().toUpperCase();
+            if (!id) {
+                showToast('Please enter a registration ID');
+                return;
+            }
+
+            // Find registration
+            let reg = state.registrations.find(r => r.id === id);
+            if (!reg) {
+                const lastReg = localStorage.getItem('lastRegistration');
+                if (lastReg) {
+                    const parsed = JSON.parse(lastReg);
+                    if (parsed.id === id) reg = parsed;
+                }
+            }
+
+            if (!reg) {
+                // Generate demo data for any ID
+                const groupName = GROUP_NAMES[Math.floor(Math.random() * GROUP_NAMES.length)];
+                reg = {
+                    id: id,
+                    name: 'Attendee ' + id.split('-')[1],
+                    email: 'attendee@email.com',
+                    church: 'MFMCAASO Youth Church',
+                    group: groupName,
+                    groupColor: GROUP_COLORS[groupName].color
+                };
+            }
+
+            if (state.checkedIn.has(id)) {
+                showToast('Already checked in!');
+                return;
+            }
+
+            state.checkedIn.add(id);
+
+            // Display result
+            document.getElementById('checkinInputSection').classList.add('hidden');
+            document.getElementById('checkinResult').classList.remove('hidden');
+
+            document.getElementById('checkinName').textContent = reg.name;
+            document.getElementById('checkinRegId').textContent = reg.id;
+            document.getElementById('checkinEmail').textContent = reg.email;
+            document.getElementById('checkinChurch').textContent = reg.church;
+            document.getElementById('checkinGroupName').textContent = reg.group;
+            document.getElementById('checkinGroupName').style.color = reg.groupColor;
+            document.getElementById('checkinGroupDot').style.backgroundColor = reg.groupColor;
+
+            // Generate QR
+            const qrContainer = document.getElementById('checkinQR');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: reg.id,
+                width: 140,
+                height: 140,
+                colorDark: '#2a1f10',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            });
+
+            showToast('Check-in successful! Welcome!');
+        }
+
+        function resetCheckin() {
+            document.getElementById('checkinInputSection').classList.remove('hidden');
+            document.getElementById('checkinResult').classList.add('hidden');
+            document.getElementById('checkinId').value = '';
+        }
+
+        // ==================== FEEDBACK ====================
+        function initStarRating(containerId, valueId) {
+            const container = document.getElementById(containerId);
+            const stars = container.querySelectorAll('.star');
+            let currentRating = 0;
+
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    currentRating = index + 1;
+                    stars.forEach((s, i) => {
+                        s.classList.toggle('active', i < currentRating);
+                    });
+                    if (valueId) {
+                        document.getElementById(valueId).textContent = currentRating + '/5';
+                    }
+                    state.ratings[containerId.replace('Rating', '')] = currentRating;
+                });
+
+                star.addEventListener('mouseenter', () => {
+                    stars.forEach((s, i) => {
+                        s.style.color = i <= index ? '#d49a1e' : '#e8dcc9';
+                    });
+                });
+            });
+
+            container.addEventListener('mouseleave', () => {
+                stars.forEach((s, i) => {
+                    s.style.color = i < currentRating ? '#d49a1e' : '#e8dcc9';
+                });
+            });
+        }
+
+        initStarRating('overallRating', null);
+        initStarRating('worshipRating', 'worshipRatingValue');
+        initStarRating('teachingRating', 'teachingRatingValue');
+        initStarRating('logisticsRating', 'logisticsRatingValue');
+
+        document.getElementById('overallRating').querySelectorAll('.star').forEach((star, index) => {
+            star.addEventListener('click', () => {
+                const texts = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+                document.getElementById('ratingText').textContent = texts[index];
+            });
+        });
+
+        function submitFeedback() {
+            const comment = document.getElementById('feedbackComment').value.trim();
+            const bestSession = document.querySelector('input[name="bestSession"]:checked')?.value;
+
+            if (state.ratings.overall === 0) {
+                showToast('Please provide an overall rating');
+                return;
+            }
+
+            state.feedbacks.push({
+                overall: state.ratings.overall,
+                worship: state.ratings.worship,
+                teaching: state.ratings.teaching,
+                logistics: state.ratings.logistics,
+                comment,
+                bestSession,
+                timestamp: new Date().toISOString()
+            });
+
+            showToast('Thank you for your feedback!');
+            setTimeout(() => navigateTo('home'), 1500);
+        }
+
+        // ==================== ADMIN CHARTS ====================
+        function initCharts() {
+            if (state.charts.trends) return; // Already initialized
+
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 9 }, color: '#a8884a' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(180,122,22,0.06)' },
+                        ticks: { font: { size: 9 }, color: '#a8884a' }
+                    }
+                }
+            };
+
+            // Trends Chart
+            const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+            const gradient = trendsCtx.createLinearGradient(0, 0, 0, 180);
+            gradient.addColorStop(0, 'rgba(212,154,30,0.15)');
+            gradient.addColorStop(1, 'rgba(212,154,30,0)');
+
+            state.charts.trends = new Chart(trendsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Day 1', 'Day 5', 'Day 10', 'Day 15', 'Day 20', 'Day 25', 'Day 30'],
+                    datasets: [{
+                        label: 'Registrations',
+                        data: [45, 120, 280, 420, 680, 950, 1247],
+                        borderColor: '#d49a1e',
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#d49a1e',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        borderWidth: 2
+                    }]
+                },
+                options: commonOptions
+            });
+
+            // Group Distribution Chart
+            const groupCtx = document.getElementById('groupChart').getContext('2d');
+            state.charts.group = new Chart(groupCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ruby', 'Sapphire', 'Emerald', 'Amber', 'Amethyst'],
+                    datasets: [{
+                        data: [245, 278, 198, 312, 214],
+                        backgroundColor: ['#DC2626', '#2563EB', '#059669', '#D97706', '#7C3AED'],
+                        borderWidth: 0,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                padding: 12,
+                                font: { size: 10 },
+                                color: '#755a2e'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Age Distribution Chart
+            const ageCtx = document.getElementById('ageChart').getContext('2d');
+            state.charts.age = new Chart(ageCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['13-17', '18-25', '26-35', '36+'],
+                    datasets: [{
+                        label: 'Attendees',
+                        data: [180, 520, 380, 167],
+                        backgroundColor: ['#f2e096', '#d49a1e', '#b87a16', '#755a2e'],
+                        borderRadius: 8,
+                        barThickness: 24
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10 }, color: '#a8884a' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(180,122,22,0.06)' },
+                            ticks: { font: { size: 9 }, color: '#a8884a' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ==================== SCROLL REVEAL ====================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -20px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ==================== COUNTER ANIMATION ====================
+        function animateCounter(element, target, duration = 1500) {
+            const start = 0;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + (target - start) * easeOut);
+                element.textContent = current.toLocaleString();
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Animate counters when admin screen is shown
+        const adminObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.id === 'screen-admin' && mutation.target.classList.contains('active')) {
+                    setTimeout(() => {
+                        animateCounter(document.getElementById('statTotalReg'), 1247);
+                        animateCounter(document.getElementById('statCheckedIn'), 892);
+                        animateCounter(document.getElementById('statAvgRating'), 47, 1000);
+                        document.getElementById('statAvgRating').textContent = '4.7';
+                        animateCounter(document.getElementById('statDaysLeft'), 45);
+                    }, 300);
+                }
+            });
+        });
+
+        adminObserver.observe(document.getElementById('screen-admin'), { attributes: true, attributeFilter: ['class'] });
+
+        // ==================== DEMO DATA ====================
+        // Pre-populate with some demo registrations
+        for (let i = 0; i < 5; i++) {
+            const groupName = GROUP_NAMES[Math.floor(Math.random() * GROUP_NAMES.length)];
+            state.registrations.push({
+                id: `MFMCYCBC26-${String(1000 + i).padStart(4, '0')}`,
+                name: `Demo Attendee ${i + 1}`,
+                email: `attendee${i + 1}@email.com`,
+                phone: `+23480000000${i}`,
+                age: '18-25',
+                church: 'MFMCAASO Youth Church',
+                group: groupName,
+                groupColor: GROUP_COLORS[groupName].color,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add smooth scroll behavior
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.style.scrollBehavior = 'smooth';
+            });
+
+            // Initialize image fade-in
+            document.querySelectorAll('img').forEach(img => {
+                img.classList.add('img-fade');
+                img.onload = () => img.classList.add('loaded');
+            });
+
+            // Re-observe any newly added .reveal elements
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+
+        // ==================== HERO SLIDESHOW ====================
+        let currentSlide = 0;
+        const TOTAL_SLIDES = 3;
+        const slideshowEl = document.getElementById('heroSlideshow');
+        const dots = document.querySelectorAll('#slideDots .slide-dot');
+        let slideshowTimer = null;
+
+        function goToSlide(index) {
+            currentSlide = ((index % TOTAL_SLIDES) + TOTAL_SLIDES) % TOTAL_SLIDES;
+            slideshowEl.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+        }
+
+        function startSlideshow() {
+            slideshowTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
+        }
+
+        startSlideshow();
+
+        // ==================== HERO PARTICLES ====================
+        (function createHeroParticles() {
+            const container = document.getElementById('heroParticles');
+            if (!container) return;
+            const PARTICLE_COLORS = [
+                'rgba(212,154,30,0.55)',
+                'rgba(255,215,80,0.4)',
+                'rgba(180,122,22,0.45)',
+                'rgba(255,255,255,0.3)'
+            ];
+            for (let i = 0; i < 14; i++) {
+                const p = document.createElement('div');
+                p.className = 'hero-particle';
+                const size = 2 + Math.random() * 4;
+                p.style.cssText = [
+                    `width:${size}px`,
+                    `height:${size}px`,
+                    `left:${10 + Math.random() * 80}%`,
+                    `bottom:${Math.random() * 25}%`,
+                    `background:${PARTICLE_COLORS[Math.floor(Math.random()*PARTICLE_COLORS.length)]}`,
+                    `animation-duration:${7 + Math.random() * 9}s`,
+                    `animation-delay:${Math.random() * 6}s`
+                ].join(';');
+                container.appendChild(p);
+            }
+        })();
+
+        // ==================== COUNTDOWN TIMER ====================
+        const CONFERENCE_DATE = new Date('2026-08-30T08:00:00').getTime();
+        const prevVals = { days: null, hours: null, mins: null, secs: null };
+
+        function animateNum(el, val) {
+            if (el.textContent !== val) {
+                el.classList.remove('flip');
+                void el.offsetWidth; // reflow
+                el.classList.add('flip');
+                el.textContent = val;
+            }
+        }
+
+        function updateCountdown() {
+            const now = Date.now();
+            const dist = CONFERENCE_DATE - now;
+            if (dist < 0) {
+                ['cdDays','cdHours','cdMins','cdSecs'].forEach(id => {
+                    document.getElementById(id).textContent = '00';
+                });
+                return;
+            }
+            const d = String(Math.floor(dist / 86400000)).padStart(2,'0');
+            const h = String(Math.floor((dist % 86400000) / 3600000)).padStart(2,'0');
+            const m = String(Math.floor((dist % 3600000) / 60000)).padStart(2,'0');
+            const s = String(Math.floor((dist % 60000) / 1000)).padStart(2,'0');
+            animateNum(document.getElementById('cdDays'), d);
+            animateNum(document.getElementById('cdHours'), h);
+            animateNum(document.getElementById('cdMins'), m);
+            animateNum(document.getElementById('cdSecs'), s);
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // ==================== BACKEND API STUBS ====================
+        // Stack: Node.js (Express) + Supabase (PostgreSQL + Auth + Realtime)
+        // Deployment: Vercel serverless functions
+        //
+        // WHAT NEEDS BACKEND:
+        //  1. POST /api/register     → Saves registration to Supabase `registrations` table
+        //                              Sends confirmation email via Resend.com
+        //  2. GET  /api/checkin/:id  → Validates reg ID against Supabase, marks checked_in=true
+        //  3. POST /api/feedback     → Saves feedback to `feedbacks` table
+        //  4. GET  /api/admin/stats  → Returns real aggregated stats (total, checked_in, avg_rating)
+        //  5. POST /api/broadcast    → Sends push notification to all registered attendees
+        //
+        // WHAT I NEED FROM YOU TO BUILD THE BACKEND:
+        //  ✦ A free Supabase account → get Project URL + Anon Key from supabase.com
+        //  ✦ A Resend.com API key (free tier) → for confirmation emails
+        //  ✦ Nothing else — I will write all the SQL schema, API routes & wiring
+
+        const API_BASE = '/api'; // Will point to your deployed backend
+
+        async function apiRegister(data) {
+            try {
+                // LIVE: const res = await fetch(`${API_BASE}/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+                // LIVE: return await res.json();
+                // ---- DEMO MODE (localStorage only) ----
+                console.log('[Backend stub] Register:', data);
+                return { success: true, regId: data.id };
+            } catch(e) {
+                console.error('Registration API error:', e);
+                return { success: false };
+            }
+        }
+
+        async function apiCheckin(regId) {
+            try {
+                // LIVE: const res = await fetch(`${API_BASE}/checkin/${regId}`, { method:'POST' });
+                // LIVE: return await res.json();
+                console.log('[Backend stub] Checkin:', regId);
+                return { success: true };
+            } catch(e) {
+                console.error('Checkin API error:', e);
+                return { success: false };
+            }
+        }
+
+        async function apiSubmitFeedback(data) {
+            try {
+                // LIVE: const res = await fetch(`${API_BASE}/feedback`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+                // LIVE: return await res.json();
+                console.log('[Backend stub] Feedback:', data);
+                return { success: true };
+            } catch(e) {
+                console.error('Feedback API error:', e);
+                return { success: false };
+            }
+        }
+
+        // Service Worker Registration for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then((registration) => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, (err) => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
