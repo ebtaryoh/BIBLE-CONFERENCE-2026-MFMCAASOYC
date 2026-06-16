@@ -2626,10 +2626,10 @@
             document.getElementById('stepLabel2').classList.remove('text-gold-600');
         }
 
-        async function confirmRegistration() {
+        function confirmRegistration() {
             // Give immediate feedback
             const confirmBtn = document.querySelector('button[onclick="confirmRegistration()"]');
-            const originalBtnText = confirmBtn.innerHTML;
+            const originalBtnText = confirmBtn ? confirmBtn.innerHTML : '';
             if(confirmBtn) {
                 confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
                 confirmBtn.style.opacity = '0.7';
@@ -2648,12 +2648,10 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            // Write to Firebase
-            try {
-                await db.collection('registrations').add(registration);
-            } catch(e) {
-                console.warn("Offline mode active.");
-            }
+            // Write to Firebase in background (don't await so UI doesn't hang)
+            db.collection('registrations').add(registration).catch(e => {
+                console.warn("Offline mode active or DB error:", e);
+            });
 
             state.registrations.push(registration);
 
@@ -2675,32 +2673,32 @@
             // Store for check-in
             localStorage.setItem('lastRegistration', JSON.stringify(registration));
 
-            // Send confirmation email via EmailJS
-            try {
-                // Determine readable text color on the group badge
-                const lightGroups = ['#f5d87a','#fbbf24','#fde68a','#a7f3d0','#6ee7b7'];
-                const isLight = lightGroups.some(c => groupInfo.color.toLowerCase().startsWith(c.slice(0,4)));
-                const badgeTextColor = isLight ? '#1a0f00' : '#ffffff';
+            // Determine readable text color on the group badge
+            const lightGroups = ['#f5d87a','#fbbf24','#fde68a','#a7f3d0','#6ee7b7'];
+            const isLight = lightGroups.some(c => groupInfo.color.toLowerCase().startsWith(c.slice(0,4)));
+            const badgeTextColor = isLight ? '#1a0f00' : '#ffffff';
 
-                await emailjs.send('service_tyr2voj', 'template_u96ygdu', {
-                    to_name:        registration.name,
-                    to_email:       registration.email,
-                    reg_id:         regId,
-                    group:          groupName,
-                    group_color:    groupInfo.color,
-                    group_text:     badgeTextColor,
-                    phone:          registration.phone,
-                    church:         registration.church,
-                    event_date:     'August 30, 2026',
-                    event_venue:    'Upper Room Tabernacle, MFMCAASOYC',
-                    event_time:     '7:25 AM prompt'
-                });
+            // Send confirmation email via EmailJS in background
+            emailjs.send('service_tyr2voj', 'template_u96ygdu', {
+                to_name:        registration.name,
+                to_email:       registration.email,
+                reg_id:         regId,
+                group:          groupName,
+                group_color:    groupInfo.color,
+                group_text:     badgeTextColor,
+                phone:          registration.phone,
+                church:         registration.church,
+                event_date:     'August 30, 2026',
+                event_venue:    'Upper Room Tabernacle, MFMCAASOYC',
+                event_time:     '7:25 AM prompt'
+            }).then(() => {
                 showToast('Registration confirmed! Check your email.');
-            } catch(emailErr) {
+            }).catch(emailErr => {
                 console.warn('Email send failed:', emailErr);
                 showToast('Registration confirmed!');
-            }
+            });
 
+            // Instantly navigate without waiting for network requests
             setTimeout(() => {
                 navigateTo('success');
                 if(confirmBtn) {
@@ -2708,7 +2706,7 @@
                     confirmBtn.style.opacity = '1';
                     confirmBtn.style.pointerEvents = 'auto';
                 }
-            }, 500);
+            }, 600);
         }
 
         function copyRegId() {
