@@ -3452,36 +3452,57 @@
             }
         });
 
-        // ==================== PWA INSTALL PROMPT ====================
+        // ==================== PWA INSTALL PROMPT & iOS SUPPORT ====================
         let deferredPrompt;
         const installModal = document.getElementById('installModal');
         const installBtn = document.getElementById('installBtn');
         const closeInstallBtn = document.getElementById('closeInstallBtn');
+        const installText = document.getElementById('installText');
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            // Update UI to notify the user they can add to home screen
-            setTimeout(() => {
-                if(installModal) {
-                    installModal.style.display = 'flex';
-                }
-            }, 3000); // Show after 3 seconds of usage
-        });
+        // Detect iOS (iPhone/iPad/iPod)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        // Detect if app is already installed / running in standalone mode
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+        // If not already installed, handle the prompts
+        if (!isStandalone) {
+            if (isIOS) {
+                // iOS doesn't support beforeinstallprompt. Show manually.
+                setTimeout(() => {
+                    if(installModal) installModal.style.display = 'flex';
+                }, 3000);
+            } else {
+                // Android / Chrome supports beforeinstallprompt
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    setTimeout(() => {
+                        if(installModal) installModal.style.display = 'flex';
+                    }, 3000);
+                });
+            }
+        }
 
         if(installBtn) {
             installBtn.addEventListener('click', async () => {
-                // Hide the app provided install promotion
-                installModal.style.display = 'none';
-                // Show the install prompt
-                if (deferredPrompt) {
+                if (isIOS) {
+                    // On iOS, we can't trigger an automatic prompt.
+                    // Change the text to instruct the user how to do it manually.
+                    installText.innerHTML = `
+                        <h3 style="font-family:'Playfair Display',serif; font-size:15px; font-weight:800; color:#fff; margin:0 0 4px; line-height:1.2;">
+                            How to Install on iPhone
+                        </h3>
+                        <p style="font-size:11px; color:rgba(255,255,255,0.8); margin:0; line-height:1.4;">
+                            1. Tap the <strong>Share <i class="fas fa-external-link-alt" style="font-size:10px;"></i></strong> button below.<br>
+                            2. Scroll down and tap <strong>Add to Home Screen <i class="fas fa-plus-square" style="font-size:10px;"></i></strong>.
+                        </p>
+                    `;
+                    installBtn.style.display = 'none'; // Hide install button since they have to do it manually
+                } else if (deferredPrompt) {
+                    installModal.style.display = 'none';
                     deferredPrompt.prompt();
-                    // Wait for the user to respond to the prompt
                     const { outcome } = await deferredPrompt.userChoice;
                     console.log(`User response to the install prompt: ${outcome}`);
-                    // We've used the prompt, and can't use it again, throw it away
                     deferredPrompt = null;
                 }
             });
@@ -3494,11 +3515,8 @@
         }
 
         window.addEventListener('appinstalled', () => {
-            // Hide the app-provided install promotion
             if(installModal) installModal.style.display = 'none';
-            // Clear the deferredPrompt so it can be garbage collected
             deferredPrompt = null;
-            console.log('PWA was installed');
         });
 
     </script>
@@ -3620,7 +3638,7 @@
         </div>
         
         <!-- Text -->
-        <div style="flex-grow:1;">
+        <div id="installText" style="flex-grow:1;">
             <h3 style="font-family:'Playfair Display',serif; font-size:15px; font-weight:800; color:#fff; margin:0 0 4px; line-height:1.2;">
                 Install Conference App
             </h3>
