@@ -1,7 +1,7 @@
 {
   "name": "Bible Conference Mfmcaasoyc",
   "short_name": "Bible Conference Mfmcaasoyc",
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0a05",
   "theme_color": "#a8884a",
