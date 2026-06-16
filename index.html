@@ -2669,14 +2669,23 @@
 
             // Send confirmation email via EmailJS
             try {
+                // Determine readable text color on the group badge
+                const lightGroups = ['#f5d87a','#fbbf24','#fde68a','#a7f3d0','#6ee7b7'];
+                const isLight = lightGroups.some(c => groupInfo.color.toLowerCase().startsWith(c.slice(0,4)));
+                const badgeTextColor = isLight ? '#1a0f00' : '#ffffff';
+
                 await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
-                    to_name:   registration.name,
-                    to_email:  registration.email,
-                    reg_id:    regId,
-                    group:     groupName,
-                    phone:     registration.phone,
-                    church:    registration.church,
-                    event_date: 'August 30, 2026'
+                    to_name:        registration.name,
+                    to_email:       registration.email,
+                    reg_id:         regId,
+                    group:          groupName,
+                    group_color:    groupInfo.color,
+                    group_text:     badgeTextColor,
+                    phone:          registration.phone,
+                    church:         registration.church,
+                    event_date:     'August 30, 2026',
+                    event_venue:    'Upper Room Tabernacle, MFMCAASOYC',
+                    event_time:     '7:25 AM prompt'
                 });
                 showToast('Registration confirmed! Check your email.');
             } catch(emailErr) {
