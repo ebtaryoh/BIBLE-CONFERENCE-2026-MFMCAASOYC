@@ -2627,6 +2627,15 @@
         }
 
         async function confirmRegistration() {
+            // Give immediate feedback
+            const confirmBtn = document.querySelector('button[onclick="confirmRegistration()"]');
+            const originalBtnText = confirmBtn.innerHTML;
+            if(confirmBtn) {
+                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                confirmBtn.style.opacity = '0.7';
+                confirmBtn.style.pointerEvents = 'none';
+            }
+
             const regId = `MFMCYCBC26-${String(Math.floor(Math.random() * 9000) + 1000)}`;
             const groupName = GROUP_NAMES[Math.floor(Math.random() * GROUP_NAMES.length)];
             const groupInfo = GROUP_COLORS[groupName];
@@ -2694,6 +2703,11 @@
 
             setTimeout(() => {
                 navigateTo('success');
+                if(confirmBtn) {
+                    confirmBtn.innerHTML = originalBtnText;
+                    confirmBtn.style.opacity = '1';
+                    confirmBtn.style.pointerEvents = 'auto';
+                }
             }, 500);
         }
 
