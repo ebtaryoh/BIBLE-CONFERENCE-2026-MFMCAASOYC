@@ -5,7 +5,7 @@
     <title>MFMCAASO Youth Church Bible Conference 2026</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0f0a05">
-    <link rel="apple-touch-icon" href="./icon.svg">
+    <link rel="apple-touch-icon" href="./assets/icons/app-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +13,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <!-- EmailJS for confirmation emails -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        (function(){
+            // EmailJS public key — replace with yours from emailjs.com dashboard
+            emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
+        })();
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -160,7 +171,14 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(15,10,5,0.15) 0%, rgba(15,10,5,0.5) 60%, rgba(250,248,245,1) 100%);
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.15) 0%,
+                rgba(0,0,0,0.08) 25%,
+                rgba(0,0,0,0.35) 50%,
+                rgba(0,0,0,0.72) 78%,
+                rgba(0,0,0,0.92) 100%
+            );
             z-index: 3;
             pointer-events: none;
         }
@@ -175,8 +193,178 @@
         }
 
         @keyframes heroZoom {
-            0% { transform: scale(1.05); }
-            100% { transform: scale(1.15); }
+            0%   { transform: scale(1.05) translateX(0%); }
+            100% { transform: scale(1.18) translateX(-6%); }
+        }
+
+        @keyframes heroScrollLeft {
+            0%   { background-position: 100% center; background-size: 140%; }
+            100% { background-position: 0% center;   background-size: 120%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(212,154,30,0.7); }
+            50%       { opacity: 0.85; transform: scale(1.15); box-shadow: 0 0 0 4px rgba(212,154,30,0); }
+        }
+
+        @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* ============ PREMIUM ANIMATION SYSTEM ============ */
+
+        /* Screen entrance slide-up */
+        .screen.active {
+            animation: screenEntrance 0.45s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes screenEntrance {
+            from { opacity: 0; transform: translateY(18px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+
+        /* Glass card hover lift + glow */
+        .glass-card {
+            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, background 0.2s ease;
+        }
+        .glass-card:hover, .glass-card:active {
+            transform: translateY(-3px) scale(1.012);
+            box-shadow: 0 12px 40px rgba(212,154,30,0.14), 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Gold shimmer border on card hover */
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(105deg, transparent 40%, rgba(212,154,30,0.12) 50%, transparent 60%);
+            background-size: 200% 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .glass-card:hover::after {
+            opacity: 1;
+            animation: shimmer 1.2s ease forwards;
+        }
+
+        /* Button tap ripple scale */
+        .tap-scale { transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1); }
+        .tap-scale:active { transform: scale(0.93); }
+
+        /* Floating gold orb background animation for special sections */
+        @keyframes floatOrb {
+            0%,100% { transform: translateY(0) scale(1); opacity:0.35; }
+            50%      { transform: translateY(-18px) scale(1.08); opacity:0.55; }
+        }
+        @keyframes floatOrbReverse {
+            0%,100% { transform: translateY(0) scale(1); opacity:0.25; }
+            50%      { transform: translateY(14px) scale(0.94); opacity:0.4; }
+        }
+
+        /* Stagger children fade-up */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: staggerIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        .stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+        .stagger-children > *:nth-child(2) { animation-delay: 0.12s; }
+        .stagger-children > *:nth-child(3) { animation-delay: 0.19s; }
+        .stagger-children > *:nth-child(4) { animation-delay: 0.26s; }
+        .stagger-children > *:nth-child(5) { animation-delay: 0.33s; }
+        .stagger-children > *:nth-child(6) { animation-delay: 0.40s; }
+        @keyframes staggerIn {
+            to { opacity:1; transform:translateY(0); }
+        }
+
+        /* Countdown number flip */
+        .countdown-num { transition: transform 0.2s ease, color 0.2s ease; }
+
+        /* Bottom nav icon bounce on active */
+        .nav-btn.active-nav svg, .nav-btn.active-nav i {
+            animation: iconBounce 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes iconBounce {
+            0%  { transform: scale(1); }
+            50% { transform: scale(1.35) translateY(-3px); }
+            100%{ transform: scale(1); }
+        }
+
+        /* Minister card image zoom on hover */
+        .minister-card img {
+            transition: transform 1.8s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .minister-card:hover img { transform: scale(1.08); }
+
+        /* Section header accent underline slide-in */
+        .section-accent {
+            display: inline-block;
+            position: relative;
+        }
+        .section-accent::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 0;
+            width: 0%; height: 2px;
+            background: linear-gradient(90deg, #d49a1e, #f5d87a);
+            border-radius: 2px;
+            transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
+        }
+        .section-accent.visible::after { width: 100%; }
+
+        /* Input focus glow */
+        input:focus, textarea:focus, select:focus {
+            box-shadow: 0 0 0 3px rgba(212,154,30,0.18), 0 1px 4px rgba(0,0,0,0.08);
+            outline: none;
+            transition: box-shadow 0.25s ease;
+        }
+
+        /* Reveal scroll animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Gold glow badge pulse */
+        .gold-badge {
+            animation: goldGlowPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes goldGlowPulse {
+            0%,100% { box-shadow: 0 0 0 0 rgba(212,154,30,0.5); }
+            50%      { box-shadow: 0 0 0 6px rgba(212,154,30,0); }
+        }
+
+        /* Slideshow captions fade-in */
+        @keyframes captionIn {
+            from { opacity:0; transform: translateX(-12px); }
+            to   { opacity:1; transform: translateX(0); }
+        }
+
+        /* Minister card premium style */
+        .minister-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+        }
+        .minister-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.18), 0 0 0 1px rgba(212,154,30,0.2);
+        }
+        .minister-card .card-shine {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Floating fire particle */
+        @keyframes fireFloat {
+            0%   { transform: translateY(0) scale(1) rotate(0deg); opacity:0.7; }
+            100% { transform: translateY(-80px) scale(0.4) rotate(20deg); opacity:0; }
         }
 
         /* Animated Text */
@@ -843,11 +1031,11 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            transform: scale(1.08);
-            animation: heroZoom 20s ease-in-out infinite alternate;
+            transform-origin: center center;
+            animation: heroZoom 18s ease-in-out infinite alternate;
         }
-        .hero-slide:nth-child(2) { animation-delay: -7s; }
-        .hero-slide:nth-child(3) { animation-delay: -14s; }
+        .hero-slide:nth-child(2) { animation-delay: -6s; }
+        .hero-slide:nth-child(3) { animation-delay: -12s; }
 
         .slide-dots {
             position: absolute;
@@ -882,6 +1070,7 @@
             padding: 14px 20px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 14px;
             position: relative;
             overflow: hidden;
@@ -976,15 +1165,7 @@
             50% { opacity: 0.3; }
         }
 
-        .countdown-event-label {
-            font-size: 9px;
-            color: rgba(212,154,30,0.6);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            flex-shrink: 0;
-            text-align: right;
-        }
+        .countdown-event-label { display: none; }
 
         /* ==================== GODLY COLORS ==================== */
         .godly-section-header {
@@ -1170,9 +1351,7 @@
             <!-- Hero Banner -->
             <div class="hero-banner">
                 <div class="hero-slideshow" id="heroSlideshow">
-                    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1507692049790-de58290a4334?w=800&q=80')"></div>
-                    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80')"></div>
-                    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80')"></div>
+                    <!-- Populated by JS with local images -->
                 </div>
                 <div class="hero-particles" id="heroParticles"></div>
                 <div class="slide-dots" id="slideDots">
@@ -1183,8 +1362,8 @@
                 <div class="absolute top-0 left-0 right-0 z-10 p-6 pt-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
-                                <i class="fas fa-cross text-white/90 text-sm"></i>
+                            <div style="width:42px;height:42px;flex-shrink:0;">
+                                <img src="./assets/logo/church-logo.jpeg" style="width:42px;height:42px;object-fit:contain;border-radius:10px;opacity:1!important;animation:none!important;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));" alt="Church Logo">
                             </div>
                             <div>
                                 <p class="text-white/60 text-[10px] font-semibold tracking-widest uppercase">MFMCAASO YOUTH CHURCH</p>
@@ -1199,18 +1378,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="absolute bottom-0 left-0 right-0 z-10 p-6 pb-8">
-                    <div class="date-badge inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 animate-text-in">
-                        <i class="fas fa-calendar-alt text-church-600 text-xs"></i>
-                        <span class="text-church-700 text-xs font-bold tracking-wide">August 30, 2026</span>
+                <div class="absolute bottom-0 left-0 right-0 z-10 p-5 pb-6" style="background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 55%, transparent 100%);">
+
+                    <!-- Conference Label + Date Row -->
+                    <div class="flex items-center justify-between mb-3 animate-text-in">
+                        <!-- Bible Conference 2026 badge -->
+                        <div class="inline-flex items-center gap-2" style="background: linear-gradient(135deg, rgba(212,154,30,0.22), rgba(212,154,30,0.08)); border: 1px solid rgba(212,154,30,0.45); backdrop-filter: blur(12px); border-radius: 999px; padding: 5px 14px;">
+                            <div style="width:6px; height:6px; border-radius:50%; background:#d49a1e; box-shadow: 0 0 6px #d49a1e; animation: pulse 2s infinite;"></div>
+                            <span style="font-size:10px; font-weight:800; letter-spacing:0.18em; color:#f5d87a; text-transform:uppercase;">Bible Conference 2026</span>
+                        </div>
+                        <!-- Date pill -->
+                        <div class="inline-flex items-center gap-2" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 999px; padding: 4px 12px;">
+                            <i class="fas fa-calendar-alt" style="color: rgba(255,255,255,0.7); font-size: 9px;"></i>
+                            <span style="font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.95); letter-spacing: 0.06em;">Aug 30, 2026</span>
+                        </div>
                     </div>
-                    <h1 class="font-display text-2xl font-bold text-white leading-tight mb-2 animate-text-in" style="text-shadow: 0 2px 20px rgba(0,0,0,0.3);">
-                        Receiving The Purging Fire<br>
-                        <span class="text-gold-300 italic font-medium text-xl">Of The Holy Spirit</span>
+
+                    <!-- Main Title -->
+                    <h1 class="animate-text-in" style="font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 800; line-height: 1.2; color: #ffffff; margin-bottom: 6px; text-shadow: 0 2px 24px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.4);">
+                        Receiving The Purging Fire
+                        <br>
+                        <span style="font-size: 1.3rem; font-weight: 600; font-style: italic; color: #f5d87a; text-shadow: 0 2px 16px rgba(0,0,0,0.6), 0 0 20px rgba(212,154,30,0.35);">Of The Holy Spirit</span>
                     </h1>
-                    <p class="text-white/80 text-[11px] font-medium leading-relaxed animate-text-in tracking-wide">
-                        2 Tim 2:19-21 &nbsp;·&nbsp; Acts 2:3-4 &nbsp;·&nbsp; Malachi 3:2
-                    </p>
+
+                    <!-- Scripture References -->
+                    <div class="animate-text-in" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
+                        <span style="font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.75); letter-spacing: 0.12em; text-shadow: 0 1px 8px rgba(0,0,0,0.8);">2 Tim 2:19-21</span>
+                        <span style="color: rgba(212,154,30,0.7); font-size: 10px;">·</span>
+                        <span style="font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.75); letter-spacing: 0.12em; text-shadow: 0 1px 8px rgba(0,0,0,0.8);">Acts 2:3-4</span>
+                        <span style="color: rgba(212,154,30,0.7); font-size: 10px;">·</span>
+                        <span style="font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.75); letter-spacing: 0.12em; text-shadow: 0 1px 8px rgba(0,0,0,0.8);">Malachi 3:2</span>
+                    </div>
                 </div>
             </div>
 
@@ -1286,6 +1484,8 @@
                 </div>
             </div>
 
+
+
             <!-- Event Schedule -->
             <div class="px-5 mt-6">
                 <div class="flex items-center justify-between mb-4">
@@ -1337,33 +1537,53 @@
                     <h2 class="font-display text-lg font-bold text-church-900">Featured Ministers</h2>
                 </div>
                 <div class="flex gap-3 overflow-x-auto snap-scroll pb-2 -mx-5 px-5" style="scrollbar-width: none;">
-                    <div class="flex-shrink-0 w-[140px] glass-card rounded-2xl overflow-hidden tap-scale">
-                        <div class="h-[100px] bg-gradient-to-br from-church-400 to-church-600 flex items-center justify-center">
-                            <i class="fas fa-user-tie text-white/40 text-3xl"></i>
+                    <div class="flex-shrink-0 w-[140px] glass-card minister-card rounded-2xl overflow-hidden tap-scale">
+                        <div class="h-[120px] bg-gradient-to-br from-church-400 to-church-600 flex items-center justify-center">
+                            <img src="./assets/ministers/dr-jeremiah.jpg" class="w-full h-full object-cover" alt="Dr. Jeremiah">
                         </div>
                         <div class="p-3">
                             <p class="font-semibold text-church-800 text-xs">Dr. Jeremiah Joseph Ajibola</p>
                             <p class="text-gold-600 text-[10px] mt-0.5">Guest Minister</p>
                         </div>
                     </div>
-                    <div class="flex-shrink-0 w-[140px] glass-card rounded-2xl overflow-hidden tap-scale">
-                        <div class="h-[100px] bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-                            <i class="fas fa-user text-white/40 text-3xl"></i>
+                    <div class="flex-shrink-0 w-[140px] glass-card minister-card rounded-2xl overflow-hidden tap-scale">
+                        <div class="h-[120px] bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
+                            <img src="./assets/ministers/pastor-blessing.jpg" class="w-full h-full object-cover" alt="Pastor Blessing">
                         </div>
                         <div class="p-3">
                             <p class="font-semibold text-church-800 text-xs">Pastor Blessing</p>
                             <p class="text-gold-600 text-[10px] mt-0.5">Pastor in Charge</p>
                         </div>
                     </div>
-                    <div class="flex-shrink-0 w-[140px] glass-card rounded-2xl overflow-hidden tap-scale">
-                        <div class="h-[100px] bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
-                            <i class="fas fa-user text-white/40 text-3xl"></i>
+                    <div class="flex-shrink-0 w-[140px] glass-card minister-card rounded-2xl overflow-hidden tap-scale">
+                        <div class="h-[120px] bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+                            <img src="./assets/ministers/pastor-dayo.webp" class="w-full h-full object-cover" alt="Pastor Dayo">
                         </div>
                         <div class="p-3">
                             <p class="font-semibold text-church-800 text-xs">Pastor Dayo</p>
                             <p class="text-gold-600 text-[10px] mt-0.5">Pastor in Charge</p>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Highlights Section -->
+            <div class="px-5 mt-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-display text-lg font-bold text-church-900">Highlights of the Bible Conference 2025</h2>
+                </div>
+                <div class="w-full h-56 rounded-2xl overflow-hidden glass-card relative shadow-lg border border-white/20" id="highlightsContainer">
+                    <!-- Populated by JS as fading slideshow -->
+                </div>
+            </div>
+
+            <!-- Teachers Section -->
+            <div class="px-5 mt-8 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-display text-lg font-bold text-church-900">Teachers in the Bible Conference 2025</h2>
+                </div>
+                <div class="w-full h-56 rounded-2xl overflow-hidden glass-card relative shadow-lg border border-white/20" id="teachersContainer">
+                    <!-- Populated by JS as fading slideshow -->
                 </div>
             </div>
 
@@ -2005,31 +2225,14 @@
             <div class="px-5 pt-5 pb-8">
                 <div class="glass-card rounded-2xl p-4 mb-6">
                     <p class="font-semibold text-church-800 text-sm mb-2">Share a Prayer Request</p>
-                    <textarea class="form-input resize-none text-sm mb-3" rows="3" placeholder="What can we pray with you for? (Anonymous)"></textarea>
-                    <button class="btn-primary w-full py-3 rounded-xl text-sm font-semibold tap-scale ripple" onclick="showToast('Prayer request submitted anonymously!')">
+                    <textarea id="prayerInput" class="form-input resize-none text-sm mb-3" rows="3" placeholder="What can we pray with you for? (Anonymous)"></textarea>
+                    <button class="btn-primary w-full py-3 rounded-xl text-sm font-semibold tap-scale ripple" onclick="submitPrayer()">
                         Submit Request
                     </button>
                 </div>
                 <h3 class="font-display text-base font-bold text-church-900 mb-4">Recent Prayers</h3>
-                <div class="space-y-4 stagger-children">
-                    <div class="glass-card rounded-2xl p-4">
-                        <p class="text-church-800 text-sm leading-relaxed mb-3">"Praying for divine direction in my academics and career choices this year. That I will walk in God's perfect will."</p>
-                        <div class="flex items-center justify-between border-t border-church-100 pt-3">
-                            <span class="text-church-400 text-[10px]">Posted 2 hrs ago</span>
-                            <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="this.innerHTML='<i class=\'fas fa-praying-hands text-gold-500\'></i> Praying (15)'">
-                                <i class="fas fa-praying-hands"></i> Pray (14)
-                            </button>
-                        </div>
-                    </div>
-                    <div class="glass-card rounded-2xl p-4">
-                        <p class="text-church-800 text-sm leading-relaxed mb-3">"Asking God for healing for my mother who has been sick for the past three weeks. Believing God for a miracle."</p>
-                        <div class="flex items-center justify-between border-t border-church-100 pt-3">
-                            <span class="text-church-400 text-[10px]">Posted 5 hrs ago</span>
-                            <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="this.innerHTML='<i class=\'fas fa-praying-hands text-gold-500\'></i> Praying (43)'">
-                                <i class="fas fa-praying-hands"></i> Pray (42)
-                            </button>
-                        </div>
-                    </div>
+                <div id="prayersContainer" class="space-y-4">
+                    <p class="text-church-400 text-xs text-center py-4">Connecting to real-time database...</p>
                 </div>
             </div>
         </div>
@@ -2262,6 +2465,20 @@
     </div>
 
     <script>
+        // ==================== FIREBASE SETUP ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVuhnWtgChq83WqLdKcETtFJW4NvC46Q8",
+            authDomain: "bible-conference-06-mfmcaasoyc.firebaseapp.com",
+            databaseURL: "https://bible-conference-06-mfmcaasoyc-default-rtdb.firebaseio.com",
+            projectId: "bible-conference-06-mfmcaasoyc",
+            storageBucket: "bible-conference-06-mfmcaasoyc.firebasestorage.app",
+            messagingSenderId: "683401524399",
+            appId: "1:683401524399:web:5b59f2eaf6b679c155905a",
+            measurementId: "G-CBMCZDXG1J"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         // ==================== STATE MANAGEMENT ====================
         const state = {
             currentScreen: 'home',
@@ -2287,6 +2504,11 @@
             const screens = document.querySelectorAll('.screen');
             const navItems = document.querySelectorAll('.nav-item');
             const bottomNav = document.getElementById('bottomNav');
+
+            if (screenId === 'admin') {
+                showAdminModal();
+                return;
+            }
 
             // Special handling for success screen
             if (screenId === 'success') {
@@ -2405,7 +2627,7 @@
             document.getElementById('stepLabel2').classList.remove('text-gold-600');
         }
 
-        function confirmRegistration() {
+        async function confirmRegistration() {
             const regId = `MFMCYCBC26-${String(Math.floor(Math.random() * 9000) + 1000)}`;
             const groupName = GROUP_NAMES[Math.floor(Math.random() * GROUP_NAMES.length)];
             const groupInfo = GROUP_COLORS[groupName];
@@ -2415,8 +2637,15 @@
                 id: regId,
                 group: groupName,
                 groupColor: groupInfo.color,
-                timestamp: new Date().toISOString()
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
+
+            // Write to Firebase
+            try {
+                await db.collection('registrations').add(registration);
+            } catch(e) {
+                console.warn("Offline mode active.");
+            }
 
             state.registrations.push(registration);
 
@@ -2438,7 +2667,22 @@
             // Store for check-in
             localStorage.setItem('lastRegistration', JSON.stringify(registration));
 
-            showToast('Registration confirmed! Email sent.');
+            // Send confirmation email via EmailJS
+            try {
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                    to_name:   registration.name,
+                    to_email:  registration.email,
+                    reg_id:    regId,
+                    group:     groupName,
+                    phone:     registration.phone,
+                    church:    registration.church,
+                    event_date: 'August 30, 2026'
+                });
+                showToast('Registration confirmed! Check your email.');
+            } catch(emailErr) {
+                console.warn('Email send failed:', emailErr);
+                showToast('Registration confirmed!');
+            }
 
             setTimeout(() => {
                 navigateTo('success');
@@ -2806,34 +3050,82 @@
                 screen.style.scrollBehavior = 'smooth';
             });
 
-            // Initialize image fade-in
+            // Initialize image fade-in (exclude logo which must always be visible)
             document.querySelectorAll('img').forEach(img => {
+                if (img.alt === 'Church Logo') {
+                    img.style.opacity = '1';
+                    img.style.animation = 'none';
+                    return;
+                }
                 img.classList.add('img-fade');
                 img.onload = () => img.classList.add('loaded');
+                if (img.complete) img.classList.add('loaded');
             });
 
             // Re-observe any newly added .reveal elements
             document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         });
 
-        // ==================== HERO SLIDESHOW ====================
-        let currentSlide = 0;
-        const TOTAL_SLIDES = 3;
-        const slideshowEl = document.getElementById('heroSlideshow');
-        const dots = document.querySelectorAll('#slideDots .slide-dot');
-        let slideshowTimer = null;
+        // ==================== HERO SLIDESHOW (Strip + Zoom) ====================
+        (function initHeroSlideshow() {
+            const slideshowEl = document.getElementById('heroSlideshow');
+            if (!slideshowEl) return;
 
-        function goToSlide(index) {
-            currentSlide = ((index % TOTAL_SLIDES) + TOTAL_SLIDES) % TOTAL_SLIDES;
-            slideshowEl.style.transform = `translateX(-${currentSlide * 33.333}%)`;
-            dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-        }
+            const images = [
+                './assets/hero/WhatsApp Image 2026-06-16 at 2.20.11 PM (4).jpeg',
+                './assets/hero/file-10 (2).jpg',
+                './assets/hero/file-10.jpg',
+                './assets/hero/file-11.jpg.jpeg',
+                './assets/hero/file-20.jpg',
+                './assets/hero/file-4 (4).jpg',
+                './assets/hero/file-4.jpg',
+                './assets/hero/file-5.webp',
+                './assets/hero/file-7.jpg',
+                './assets/hero/file-8 (2).jpg',
+                './assets/hero/file-8.jpg',
+                './assets/hero/file-9.jpg.jpeg'
+            ];
+            const TOTAL = images.length;
 
-        function startSlideshow() {
-            slideshowTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
-        }
+            // Build the strip — each slide is 100vw wide, strip is TOTAL * 100%
+            slideshowEl.innerHTML = '';
+            slideshowEl.style.width = (TOTAL * 100) + '%';
+            slideshowEl.style.display = 'flex';
+            slideshowEl.style.transition = 'transform 0.9s cubic-bezier(0.77,0,0.175,1)';
+            slideshowEl.style.transform = 'translateX(0)';
 
-        startSlideshow();
+            images.forEach(src => {
+                const slide = document.createElement('div');
+                slide.className = 'hero-slide';
+                slide.style.backgroundImage = `url("${src}")`;
+                slideshowEl.appendChild(slide);
+            });
+
+            // Rebuild dots
+            const dotsContainer = document.getElementById('slideDots');
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                dotsContainer.style.display = 'flex';
+                images.forEach((_, i) => {
+                    const dot = document.createElement('div');
+                    dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+                    dot.onclick = () => goToSlide(i);
+                    dotsContainer.appendChild(dot);
+                });
+            }
+
+            let currentSlide = 0;
+            window.goToSlide = function(index) {
+                currentSlide = ((index % TOTAL) + TOTAL) % TOTAL;
+                // Each slide occupies (100/TOTAL)% of the strip
+                slideshowEl.style.transform = `translateX(-${currentSlide * (100 / TOTAL)}%)`;
+                dotsContainer && dotsContainer.querySelectorAll('.slide-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === currentSlide);
+                });
+            };
+
+            setInterval(() => window.goToSlide(currentSlide + 1), 5000);
+        })();
 
         // ==================== HERO PARTICLES ====================
         (function createHeroParticles() {
@@ -2897,55 +3189,85 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // ==================== BACKEND API STUBS ====================
-        // Stack: Node.js (Express) + Supabase (PostgreSQL + Auth + Realtime)
-        // Deployment: Vercel serverless functions
-        //
-        // WHAT NEEDS BACKEND:
-        //  1. POST /api/register     → Saves registration to Supabase `registrations` table
-        //                              Sends confirmation email via Resend.com
-        //  2. GET  /api/checkin/:id  → Validates reg ID against Supabase, marks checked_in=true
-        //  3. POST /api/feedback     → Saves feedback to `feedbacks` table
-        //  4. GET  /api/admin/stats  → Returns real aggregated stats (total, checked_in, avg_rating)
-        //  5. POST /api/broadcast    → Sends push notification to all registered attendees
-        //
-        // WHAT I NEED FROM YOU TO BUILD THE BACKEND:
-        //  ✦ A free Supabase account → get Project URL + Anon Key from supabase.com
-        //  ✦ A Resend.com API key (free tier) → for confirmation emails
-        //  ✦ Nothing else — I will write all the SQL schema, API routes & wiring
-
-        const API_BASE = '/api'; // Will point to your deployed backend
-
-        async function apiRegister(data) {
+        // ==================== FIREBASE BACKEND INTEGRATION ====================
+        
+        async function submitPrayer() {
+            const input = document.getElementById('prayerInput');
+            const text = input.value.trim();
+            if(!text) return;
+            
             try {
-                // LIVE: const res = await fetch(`${API_BASE}/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
-                // LIVE: return await res.json();
-                // ---- DEMO MODE (localStorage only) ----
-                console.log('[Backend stub] Register:', data);
-                return { success: true, regId: data.id };
+                await db.collection('prayers').add({
+                    text: text,
+                    prays: 0,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                input.value = '';
+                showToast('Prayer request submitted anonymously!');
             } catch(e) {
-                console.error('Registration API error:', e);
-                return { success: false };
+                console.error(e);
+                showToast('Error submitting prayer.');
             }
         }
 
-        async function apiCheckin(regId) {
+        async function incrementPrayCount(id, btn) {
             try {
-                // LIVE: const res = await fetch(`${API_BASE}/checkin/${regId}`, { method:'POST' });
-                // LIVE: return await res.json();
-                console.log('[Backend stub] Checkin:', regId);
-                return { success: true };
+                btn.innerHTML = '<i class="fas fa-praying-hands text-gold-500"></i> Praying...';
+                btn.disabled = true;
+                await db.collection('prayers').doc(id).update({
+                    prays: firebase.firestore.FieldValue.increment(1)
+                });
             } catch(e) {
-                console.error('Checkin API error:', e);
-                return { success: false };
+                console.error(e);
+                btn.disabled = false;
             }
         }
+
+        // Live Listener for Prayers
+        function listenForPrayers() {
+            db.collection('prayers')
+              .orderBy('timestamp', 'desc')
+              .limit(20)
+              .onSnapshot((snapshot) => {
+                  const container = document.getElementById('prayersContainer');
+                  if(!container) return;
+                  
+                  if(snapshot.empty) {
+                      container.innerHTML = '<p class="text-church-400 text-xs text-center py-4">No prayers yet. Be the first to share.</p>';
+                      return;
+                  }
+
+                  let html = '';
+                  snapshot.forEach((doc) => {
+                      const data = doc.data();
+                      const timeString = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Just now';
+                      html += `
+                        <div class="glass-card rounded-2xl p-4">
+                            <p class="text-church-800 text-sm leading-relaxed mb-3">"${data.text}"</p>
+                            <div class="flex items-center justify-between border-t border-church-100 pt-3">
+                                <span class="text-church-400 text-[10px]">Posted at ${timeString}</span>
+                                <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="incrementPrayCount('${doc.id}', this)">
+                                    <i class="fas fa-praying-hands"></i> Pray (${data.prays || 0})
+                                </button>
+                            </div>
+                        </div>
+                      `;
+                  });
+                  container.innerHTML = html;
+              }, (error) => {
+                  console.error("Error listening to prayers: ", error);
+              });
+        }
+        
+        // Start listener on load
+        listenForPrayers();
 
         async function apiSubmitFeedback(data) {
             try {
-                // LIVE: const res = await fetch(`${API_BASE}/feedback`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
-                // LIVE: return await res.json();
-                console.log('[Backend stub] Feedback:', data);
+                await db.collection('feedback').add({
+                    ...data,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
                 return { success: true };
             } catch(e) {
                 console.error('Feedback API error:', e);
@@ -2953,7 +3275,101 @@
             }
         }
 
-        // Service Worker Registration for PWA
+        async function apiCheckin(regId) {
+            try {
+                const snapshot = await db.collection('registrations').where('id', '==', regId).get();
+                if(snapshot.empty) return { success: false, error: 'Registration not found' };
+                
+                const docId = snapshot.docs[0].id;
+                await db.collection('registrations').doc(docId).update({
+                    checked_in: true,
+                    checkin_time: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                return { success: true };
+            } catch(e) {
+                console.error('Checkin API error:', e);
+                return { success: false };
+            }
+        }
+
+        // ==================== DYNAMIC SECTIONS ====================
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Teachers Section Slideshow (contain = no crop)
+            const teacherImages = [
+                'file-1.jpg','file-10.jpg','file-11.jpg','file-12.jpg','file-13.jpg',
+                'file-17.jpg','file-19.jpg','file-20.jpg','file-4.jpg','file-5.jpg',
+                'file-7.jpg','file-8.jpg','file-9.jpg'
+            ];
+            const teachersContainer = document.getElementById('teachersContainer');
+            if (teachersContainer) {
+                teachersContainer.innerHTML = '';
+                teachersContainer.style.background = '#0d0d0d';
+                let curT = 0;
+                teacherImages.forEach((img, idx) => {
+                    const slide = document.createElement('div');
+                    slide.setAttribute('data-teacher-slide', '');
+                    Object.assign(slide.style, {
+                        position: 'absolute', inset: '0',
+                        backgroundImage: `url("./assets/teachers/${img}")`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                        opacity: idx === 0 ? '1' : '0',
+                        transition: 'opacity 1.4s ease-in-out'
+                    });
+                    teachersContainer.appendChild(slide);
+                });
+                setInterval(() => {
+                    const slides = teachersContainer.querySelectorAll('[data-teacher-slide]');
+                    slides[curT].style.opacity = '0';
+                    curT = (curT + 1) % teacherImages.length;
+                    slides[curT].style.opacity = '1';
+                }, 4000);
+            }
+
+            // 2. Highlights Section Slideshow (contain = no crop)
+            const highlightImages = [
+                'file-1 (2).jpg','file-1.jpg','file-10 (2).jpg','file-10 (3).jpg','file-10.jpg',
+                'file-11 (2).jpg','file-11 (3).jpg','file-11 (4).jpg','file-11.jpg','file-12 (2).jpg',
+                'file-12 (3).jpg','file-12.jpg','file-13.jpg','file-14 (2).jpg','file-14 (3).jpg',
+                'file-14.jpg','file-15 (2).jpg','file-15 (3).jpg','file-15.jpg','file-16 (2).jpg',
+                'file-16.jpg','file-17 (2).jpg','file-17.jpg','file-18 (2).jpg','file-18.jpg',
+                'file-19 (2).jpg','file-19 (3).jpg','file-19.jpg','file-2 (2).jpg','file-2.jpg',
+                'file-20.jpg','file-3 (2).jpg','file-3 (3).jpg','file-3.jpg','file-4 (2).jpg',
+                'file-4 (3).jpg','file-4 (4).jpg','file-4.jpg','file-5 (2).jpg','file-5.jpg',
+                'file-6.jpg','file-7 (2).jpg','file-7.jpg','file-8 (2).jpg','file-8.jpg',
+                'file-9 (2).jpg','file-9.jpg'
+            ];
+            const highlightsContainer = document.getElementById('highlightsContainer');
+            if (highlightsContainer) {
+                highlightsContainer.innerHTML = '';
+                highlightsContainer.style.background = '#0d0d0d';
+                let curH = 0;
+                highlightImages.forEach((img, idx) => {
+                    const slide = document.createElement('div');
+                    slide.setAttribute('data-highlight-slide', '');
+                    Object.assign(slide.style, {
+                        position: 'absolute', inset: '0',
+                        backgroundImage: `url("./assets/highlights/${img}")`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                        opacity: idx === 0 ? '1' : '0',
+                        transition: 'opacity 1.4s ease-in-out'
+                    });
+                    highlightsContainer.appendChild(slide);
+                });
+                setInterval(() => {
+                    const slides = highlightsContainer.querySelectorAll('[data-highlight-slide]');
+                    slides[curH].style.opacity = '0';
+                    curH = (curH + 1) % highlightImages.length;
+                    slides[curH].style.opacity = '1';
+                }, 3500);
+            }
+        });
+
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').then((registration) => {
@@ -2963,6 +3379,154 @@
                 });
             });
         }
+
+        // ==================== ADMIN MODAL ====================
+        function showAdminModal() {
+            const modal = document.getElementById('adminModal');
+            modal.style.display = 'flex';
+            const input = document.getElementById('adminCodeInput');
+            input.value = '';
+            document.getElementById('adminModalError').style.display = 'none';
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        function verifyAdminCode() {
+            const input = document.getElementById('adminCodeInput');
+            const code = input.value.trim();
+            const errorEl = document.getElementById('adminModalError');
+
+            if (code.startsWith('BC06-ADMIN')) {
+                errorEl.style.display = 'none';
+                closeAdminModal();
+                // Navigate to admin screen directly
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                const target = document.getElementById('screen-admin');
+                if (target) { target.classList.add('active'); target.scrollTop = 0; }
+                const bottomNav = document.getElementById('bottomNav');
+                if (bottomNav) bottomNav.style.display = 'none';
+            } else {
+                errorEl.style.display = 'block';
+                input.style.borderColor = 'rgba(248,113,113,0.6)';
+                input.style.boxShadow = '0 0 0 3px rgba(248,113,113,0.15)';
+                setTimeout(() => {
+                    input.style.borderColor = 'rgba(212,154,30,0.25)';
+                    input.style.boxShadow = 'none';
+                }, 2000);
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const adminModalEl = document.getElementById('adminModal');
+            if (adminModalEl) {
+                adminModalEl.addEventListener('click', function(e) {
+                    if (e.target === this) closeAdminModal();
+                });
+            }
+        });
+
     </script>
+    <!-- ==================== ADMIN LOGIN MODAL ==================== -->
+    <div id="adminModal" style="
+        display:none; position:fixed; inset:0; z-index:9999;
+        background:rgba(0,0,0,0.75); backdrop-filter:blur(8px);
+        align-items:center; justify-content:center; padding:24px;
+    ">
+        <div style="
+            background:linear-gradient(145deg,#1a1106,#0f0a05);
+            border:1px solid rgba(212,154,30,0.3);
+            border-radius:24px; width:100%; max-width:360px;
+            padding:32px 28px; box-shadow:0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,154,30,0.1);
+            animation: adminModalIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+        ">
+            <!-- Logo -->
+            <div style="text-align:center; margin-bottom:24px;">
+                <div style="
+                    width:56px; height:56px; border-radius:14px;
+                    background:linear-gradient(135deg,rgba(212,154,30,0.2),rgba(212,154,30,0.05));
+                    border:1px solid rgba(212,154,30,0.35); display:inline-flex;
+                    align-items:center; justify-content:center; margin-bottom:14px;
+                ">
+                    <i class="fas fa-shield-alt" style="color:#d49a1e; font-size:22px;"></i>
+                </div>
+                <h2 style="font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:800; color:#fff; margin:0 0 6px;">
+                    Admin Access
+                </h2>
+                <p style="font-size:11px; color:rgba(255,255,255,0.45); margin:0; letter-spacing:0.05em;">
+                    Enter your admin code to continue
+                </p>
+            </div>
+
+            <!-- Input -->
+            <div style="position:relative; margin-bottom:16px;">
+                <input
+                    id="adminCodeInput"
+                    type="password"
+                    placeholder="BC06-ADMIN···"
+                    autocomplete="off"
+                    onkeydown="if(event.key==='Enter')verifyAdminCode()"
+                    style="
+                        width:100%; box-sizing:border-box;
+                        background:rgba(255,255,255,0.06);
+                        border:1px solid rgba(212,154,30,0.25);
+                        border-radius:14px; padding:14px 46px 14px 16px;
+                        font-size:14px; color:#fff; font-family:'Inter',sans-serif;
+                        letter-spacing:0.1em; outline:none;
+                        transition:border-color 0.2s, box-shadow 0.2s;
+                    "
+                    onfocus="this.style.borderColor='rgba(212,154,30,0.6)';this.style.boxShadow='0 0 0 3px rgba(212,154,30,0.15)'"
+                    onblur="this.style.borderColor='rgba(212,154,30,0.25)';this.style.boxShadow='none'"
+                >
+                <i class="fas fa-key" style="
+                    position:absolute; right:14px; top:50%; transform:translateY(-50%);
+                    color:rgba(212,154,30,0.5); font-size:13px; pointer-events:none;
+                "></i>
+            </div>
+            <div id="adminModalError" style="
+                display:none; font-size:11px; color:#f87171;
+                text-align:center; margin-bottom:14px;
+                animation: captionIn 0.3s ease;
+            ">
+                <i class="fas fa-exclamation-circle" style="margin-right:5px;"></i>
+                Invalid code. Access denied.
+            </div>
+
+            <!-- Buttons -->
+            <button onclick="verifyAdminCode()" style="
+                width:100%; padding:14px; border-radius:14px; border:none; cursor:pointer;
+                background:linear-gradient(135deg,#d49a1e,#f5d87a);
+                color:#0f0a05; font-size:14px; font-weight:800;
+                font-family:'Inter',sans-serif; letter-spacing:0.05em;
+                margin-bottom:10px;
+                transition:opacity 0.2s, transform 0.15s;
+            " onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'"
+               onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform='scale(1)'">
+                <i class="fas fa-unlock-alt" style="margin-right:8px;"></i>Unlock Dashboard
+            </button>
+            <button onclick="closeAdminModal()" style="
+                width:100%; padding:12px; border-radius:14px; cursor:pointer;
+                background:transparent; border:1px solid rgba(255,255,255,0.1);
+                color:rgba(255,255,255,0.5); font-size:13px;
+                font-family:'Inter',sans-serif;
+                transition:background 0.2s;
+            " onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes adminModalIn {
+            from { opacity:0; transform:scale(0.88) translateY(20px); }
+            to   { opacity:1; transform:scale(1) translateY(0); }
+        }
+    </style>
+
 </body>
 </html>
