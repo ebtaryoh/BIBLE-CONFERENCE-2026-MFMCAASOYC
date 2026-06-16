@@ -20,8 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         (function(){
-            // EmailJS public key — replace with yours from emailjs.com dashboard
-            emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
+            emailjs.init('cq1WS065UuqDNpmA1');
         })();
     </script>
     <script>
@@ -200,6 +199,11 @@
         @keyframes heroScrollLeft {
             0%   { background-position: 100% center; background-size: 140%; }
             100% { background-position: 0% center;   background-size: 120%; }
+        }
+
+        @keyframes kenBurnsLeft {
+            0%   { background-size: 140%; background-position: 80% center; }
+            100% { background-size: 120%; background-position: 5%  center; }
         }
 
         @keyframes pulse {
@@ -2674,7 +2678,7 @@
                 const isLight = lightGroups.some(c => groupInfo.color.toLowerCase().startsWith(c.slice(0,4)));
                 const badgeTextColor = isLight ? '#1a0f00' : '#ffffff';
 
-                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                await emailjs.send('service_tyr2voj', 'template_u96ygdu', {
                     to_name:        registration.name,
                     to_email:       registration.email,
                     reg_id:         regId,
@@ -3075,7 +3079,7 @@
             document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         });
 
-        // ==================== HERO SLIDESHOW (Strip + Zoom) ====================
+        // ==================== HERO SLIDESHOW (Scroll-Left + Zoom Ken Burns) ====================
         (function initHeroSlideshow() {
             const slideshowEl = document.getElementById('heroSlideshow');
             if (!slideshowEl) return;
@@ -3096,17 +3100,29 @@
             ];
             const TOTAL = images.length;
 
-            // Build the strip — each slide is 100vw wide, strip is TOTAL * 100%
+            // Reset to absolute stacked mode
             slideshowEl.innerHTML = '';
-            slideshowEl.style.width = (TOTAL * 100) + '%';
-            slideshowEl.style.display = 'flex';
-            slideshowEl.style.transition = 'transform 0.9s cubic-bezier(0.77,0,0.175,1)';
-            slideshowEl.style.transform = 'translateX(0)';
+            slideshowEl.style.width   = '100%';
+            slideshowEl.style.display = 'block';
+            slideshowEl.style.transition = 'none';
+            slideshowEl.style.transform  = 'none';
 
-            images.forEach(src => {
+            // Each slide: fades in/out, while its background pans left + zooms
+            images.forEach((src, idx) => {
                 const slide = document.createElement('div');
                 slide.className = 'hero-slide';
-                slide.style.backgroundImage = `url("${src}")`;
+                // Duration varies slightly per slide for organic feel
+                const dur = 16 + (idx % 4) * 2;
+                Object.assign(slide.style, {
+                    position:           'absolute',
+                    inset:              '0',
+                    backgroundImage:    `url("${src}")`,
+                    backgroundSize:     '140%',
+                    backgroundPosition: '80% center',
+                    opacity:            idx === 0 ? '1' : '0',
+                    transition:         'opacity 1.8s ease-in-out',
+                    animation:          `kenBurnsLeft ${dur}s ease-in-out infinite alternate`
+                });
                 slideshowEl.appendChild(slide);
             });
 
@@ -3125,15 +3141,16 @@
 
             let currentSlide = 0;
             window.goToSlide = function(index) {
+                const slides = slideshowEl.querySelectorAll('.hero-slide');
+                slides[currentSlide].style.opacity = '0';
                 currentSlide = ((index % TOTAL) + TOTAL) % TOTAL;
-                // Each slide occupies (100/TOTAL)% of the strip
-                slideshowEl.style.transform = `translateX(-${currentSlide * (100 / TOTAL)}%)`;
+                slides[currentSlide].style.opacity = '1';
                 dotsContainer && dotsContainer.querySelectorAll('.slide-dot').forEach((d, i) => {
                     d.classList.toggle('active', i === currentSlide);
                 });
             };
 
-            setInterval(() => window.goToSlide(currentSlide + 1), 5000);
+            setInterval(() => window.goToSlide(currentSlide + 1), 5500);
         })();
 
         // ==================== HERO PARTICLES ====================
