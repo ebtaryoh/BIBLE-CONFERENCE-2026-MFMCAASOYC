@@ -1486,6 +1486,41 @@
 
 
             <!-- Event Schedule -->
+            
+            <!-- Bible Marquee -->
+            <style>
+                @keyframes marquee {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                .animate-marquee-track {
+                    display: flex;
+                    width: max-content;
+                    animation: marquee 80s linear infinite;
+                }
+                .animate-marquee-track:hover {
+                    animation-play-state: paused;
+                }
+            </style>
+            <div class="overflow-hidden bg-[#110c07] py-4 mb-6 border-y border-[rgba(212,154,30,0.15)] relative">
+                <div class="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#110c07] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#110c07] to-transparent z-10 pointer-events-none"></div>
+                <div class="animate-marquee-track text-white font-serif italic text-[13px] tracking-wide">
+                    <!-- Original Content -->
+                    <div class="flex items-center space-x-12 px-6">
+                        <span><span class="font-bold text-[#d49a1e] font-sans not-italic uppercase text-[10px] tracking-widest mr-2">2 Timothy 2:19-21 KJV</span> Nevertheless the foundation of God standeth sure, having this seal, The Lord knoweth them that are his. And, Let every one that nameth the name of Christ depart from iniquity. [20] But in a great house there are not only vessels of gold and of silver, but also of wood and of earth; and some to honour, and some to dishonour. [21] If a man therefore purge himself from these, he shall be a vessel unto honour, sanctified, and meet for the master's use, and prepared unto every good work.</span>
+                        <span><span class="font-bold text-[#d49a1e] font-sans not-italic uppercase text-[10px] tracking-widest mr-2">Acts 2:3-4 KJV</span> And there appeared unto them cloven tongues like as of fire, and it sat upon each of them. [4] And they were all filled with the Holy Ghost, and began to speak with other tongues, as the Spirit gave them utterance.</span>
+                        <span><span class="font-bold text-[#d49a1e] font-sans not-italic uppercase text-[10px] tracking-widest mr-2">Malachi 3:2-3 KJV</span> But who may abide the day of his coming? and who shall stand when he appeareth? for he is like a refiner's fire, and like fullers' soap: [3] And he shall sit as a refiner and purifier of silver: and he shall purify the sons of Levi, and purge them as gold and silver, that they may offer unto the LORD an offering in righteousness.</span>
+                    </div>
+                    <!-- Duplicate Content for seamless loop -->
+                    <div class="flex items-center space-x-12 px-6">
+                        <span><span class="font-bold text-[#d49a1e] font-sans not-italic uppercase text-[10px] tracking-widest mr-2">2 Timothy 2:19-21 KJV</span> Nevertheless the foundation of God standeth sure, having this seal, The Lord knoweth them that are his. And, Let every one that nameth the name of Christ depart from iniquity. [20] But in a great house there are not only vessels of gold and of silver, but also of wood and of earth; and some to honour, and some to dishonour. [21] If a man therefore purge himself from these, he shall be a vessel unto honour, sanctified, and meet for the master's use, and prepared unto every good work.</span>
+                        <span><span class="font-bold text-[#d49a1e] font-sans not-italic uppercase text-[10px] tracking-widest mr-2">Acts 2:3-4 KJV</span> And there appeared unto them cloven tongues like as of fire, and it sat upon each of them. [4] And they were all filled with the Holy Ghost, and began to speak with other tongues, as the Spirit gave them utterance.</span>
+                        <span><span class="font-bold text-[#d49a1e] font-sans not-italic uppercase text-[10px] tracking-widest mr-2">Malachi 3:2-3 KJV</span> But who may abide the day of his coming? and who shall stand when he appeareth? for he is like a refiner's fire, and like fullers' soap: [3] And he shall sit as a refiner and purifier of silver: and he shall purify the sons of Levi, and purge them as gold and silver, that they may offer unto the LORD an offering in righteousness.</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="px-5 mt-6">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="font-display text-lg font-bold text-church-900">Program Highlights</h2>
@@ -3033,35 +3068,46 @@
         const adminObserver = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.target.id === 'screen-admin' && mutation.target.classList.contains('active')) {
-                    setTimeout(() => {
-                        animateCounter(document.getElementById('statTotalReg'), 1247);
-                        animateCounter(document.getElementById('statCheckedIn'), 892);
-                        animateCounter(document.getElementById('statAvgRating'), 47, 1000);
-                        document.getElementById('statAvgRating').textContent = '4.7';
-                        animateCounter(document.getElementById('statDaysLeft'), 45);
-                    }, 300);
+                    // Calculate days left
+                    const daysLeft = Math.max(0, Math.ceil((CONFERENCE_DATE - Date.now()) / (1000 * 60 * 60 * 24)));
+                    
+                    // Fetch real data from Firebase
+                    db.collection('registrations').get().then(snap => {
+                        const total = snap.size;
+                        let checked = 0;
+                        snap.forEach(doc => {
+                            if (doc.data().checked_in) checked++;
+                        });
+                        animateCounter(document.getElementById('statTotalReg'), total);
+                        animateCounter(document.getElementById('statCheckedIn'), checked);
+                    }).catch(e => {
+                        console.error('Failed to fetch admin stats:', e);
+                        animateCounter(document.getElementById('statTotalReg'), 0);
+                        animateCounter(document.getElementById('statCheckedIn'), 0);
+                    });
+
+                    // Fetch real avg feedback rating
+                    db.collection('feedback').get().then(snap => {
+                        if(snap.empty) {
+                            document.getElementById('statAvgRating').textContent = '0.0';
+                        } else {
+                            let totalRating = 0;
+                            snap.forEach(doc => {
+                                totalRating += (doc.data().rating || 5);
+                            });
+                            const avg = (totalRating / snap.size).toFixed(1);
+                            document.getElementById('statAvgRating').textContent = avg;
+                        }
+                    }).catch(e => {
+                        document.getElementById('statAvgRating').textContent = '0.0';
+                    });
+                    
+                    animateCounter(document.getElementById('statDaysLeft'), daysLeft);
                 }
             });
         });
 
         adminObserver.observe(document.getElementById('screen-admin'), { attributes: true, attributeFilter: ['class'] });
-
-        // ==================== DEMO DATA ====================
-        // Pre-populate with some demo registrations
-        for (let i = 0; i < 5; i++) {
-            const groupName = GROUP_NAMES[Math.floor(Math.random() * GROUP_NAMES.length)];
-            state.registrations.push({
-                id: `MFMCYCBC26-${String(1000 + i).padStart(4, '0')}`,
-                name: `Demo Attendee ${i + 1}`,
-                email: `attendee${i + 1}@email.com`,
-                phone: `+23480000000${i}`,
-                age: '18-25',
-                church: 'MFMCAASO Youth Church',
-                group: groupName,
-                groupColor: GROUP_COLORS[groupName].color,
-                timestamp: new Date().toISOString()
-            });
-        }
 
         // ==================== INIT ====================
         document.addEventListener('DOMContentLoaded', () => {
@@ -3432,7 +3478,7 @@
             const code = input.value.trim();
             const errorEl = document.getElementById('adminModalError');
 
-            if (code.startsWith('BC06-ADMIN')) {
+            if (code === 'BC06-ADMIN-101') {
                 errorEl.style.display = 'none';
                 closeAdminModal();
                 // Navigate to admin screen directly
@@ -3568,7 +3614,7 @@
                 <input
                     id="adminCodeInput"
                     type="password"
-                    placeholder="BC06-ADMIN···"
+                    placeholder="BC06-ADMIN-101"
                     autocomplete="off"
                     onkeydown="if(event.key==='Enter')verifyAdminCode()"
                     style="
