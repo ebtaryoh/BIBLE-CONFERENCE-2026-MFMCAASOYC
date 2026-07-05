@@ -2068,9 +2068,6 @@
 
                                 Please note that registration is compulsory for all youths to ensure proper planning and
                                 maximum participation.
-
-                                If you have not registered yet, please do so as soon as possible.
-
                                 We look forward to an unforgettable encounter in God's presence.
 
                                 God bless you as you prepare for this great conference!</p>
@@ -2174,10 +2171,7 @@
                     <input type="text" class="form-input" id="regChurch" placeholder="Your church or branch name"
                         oninput="validateForm()">
                 </div>
-                <div class="animated-border">
-                    <label class="form-label">Dietary Requirements (Optional)</label>
-                    <input type="text" class="form-input" id="regDiet" placeholder="Any allergies or preferences">
-                </div>
+
                 <div class="pt-2">
                     <label class="flex items-start gap-3 cursor-pointer tap-scale">
                         <input type="checkbox" id="regTerms"
@@ -3137,30 +3131,56 @@
         }
 
         async function confirmRegistration() {
-            // Give immediate feedback
             const confirmBtn = document.querySelector('button[onclick="confirmRegistration()"]');
-            const originalBtnText = confirmBtn ? confirmBtn.innerHTML : '';
-            if (confirmBtn) {
-                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
-                confirmBtn.style.opacity = '0.7';
-                confirmBtn.style.pointerEvents = 'none';
-            }
+            const originalBtnText = confirmBtn ? confirmBtn.innerHTML : 'Confirm &amp; Register';
+
+            const setLoading = (loading) => {
+                if (!confirmBtn) return;
+                if (loading) {
+                    confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                    confirmBtn.disabled = true;
+                    confirmBtn.style.opacity = '0.7';
+                    confirmBtn.style.pointerEvents = 'none';
+                } else {
+                    confirmBtn.innerHTML = originalBtnText;
+                    confirmBtn.disabled = false;
+                    confirmBtn.style.opacity = '1';
+                    confirmBtn.style.pointerEvents = 'auto';
+                }
+            };
+
+            setLoading(true);
+
+            // Timeout helper for Firebase calls that might hang indefinitely
+            const withTimeout = (promise, ms = 15000) => {
+                let timeoutId;
+                const timeoutPromise = new Promise((_, reject) => {
+                    timeoutId = setTimeout(() => {
+                        reject(new Error('Connection timed out. Please check your internet or Firebase setup.'));
+                    }, ms);
+                });
+                return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
+            };
 
             try {
+                if (!currentRegData || !currentRegData.email) {
+                    showToast('Registration data is missing. Please go back and fill the form.');
+                    setLoading(false);
+                    return;
+                }
+
                 // Check for existing email
-                const emailQuery = await db.collection('registrations').where('email', '==', currentRegData.email).get();
+                const emailQuery = await withTimeout(
+                    db.collection('registrations').where('email', '==', currentRegData.email).get()
+                );
                 if (!emailQuery.empty) {
-                    showToast('This email has been used. Please check your mail.');
-                    if (confirmBtn) {
-                        confirmBtn.innerHTML = originalBtnText;
-                        confirmBtn.style.opacity = '1';
-                        confirmBtn.style.pointerEvents = 'auto';
-                    }
+                    showToast('This email is already registered. Please check your mail.');
+                    setLoading(false);
                     return;
                 }
 
                 // Balance group assignments
-                const allRegs = await db.collection('registrations').get();
+                const allRegs = await withTimeout(db.collection('registrations').get());
                 const groupCounts = {};
                 GROUP_NAMES.forEach(g => groupCounts[g] = 0);
                 allRegs.forEach(doc => {
@@ -3173,22 +3193,39 @@
                 const minCount = Math.min(...Object.values(groupCounts));
                 const candidates = GROUP_NAMES.filter(g => groupCounts[g] === minCount);
                 const groupName = candidates[Math.floor(Math.random() * candidates.length)];
-
                 const groupInfo = GROUP_COLORS[groupName];
-                const regId = `MFMCYCBC26-${String(Math.floor(Math.random() * 9000) + 1000)}`;
+
+                // Generate unique reg ID — retry if duplicate
+                let regId;
+                let idUnique = false;
+                for (let attempt = 0; attempt < 5; attempt++) {
+                    regId = `MFMCYCBC26-${String(Math.floor(Math.random() * 90000) + 10000)}`;
+                    const idCheck = await withTimeout(
+                        db.collection('registrations').where('id', '==', regId).get()
+                    );
+                    if (idCheck.empty) { idUnique = true; break; }
+                }
+                if (!idUnique) { regId = `MFMCYCBC26-${Date.now()}`; }
 
                 const registration = {
-                    ...currentRegData,
+                    name: currentRegData.name,
+                    email: currentRegData.email,
+                    phone: currentRegData.phone,
+                    age: currentRegData.age,
+                    church: currentRegData.church,
                     id: regId,
                     group: groupName,
                     groupColor: groupInfo.color,
+                    checked_in: false,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 };
 
                 // Write to Firebase
-                await db.collection('registrations').add(registration);
-
+                await withTimeout(db.collection('registrations').add(registration));
                 state.registrations.push(registration);
+
+                // Store for check-in pre-fill
+                localStorage.setItem('lastRegistration', JSON.stringify({ ...registration, timestamp: new Date().toISOString() }));
 
                 // Update success screen
                 document.getElementById('successRegId').textContent = regId;
@@ -3196,7 +3233,7 @@
                 document.getElementById('successGroupName').style.color = groupInfo.color;
                 document.getElementById('successGroupDot').style.backgroundColor = groupInfo.color;
 
-                // Update progress
+                // Update progress steps to complete
                 document.getElementById('step2').classList.remove('active');
                 document.getElementById('step2').classList.add('completed');
                 document.getElementById('step2').innerHTML = '<i class="fas fa-check text-xs"></i>';
@@ -3205,16 +3242,11 @@
                 document.getElementById('line2').classList.add('completed');
                 document.getElementById('stepLabel3').classList.add('text-gold-600');
 
-                // Store for check-in
-                localStorage.setItem('lastRegistration', JSON.stringify(registration));
-
-                // Determine readable text color on the group badge
-                // Holy Gold & Pure White have light backgrounds, all others are dark
+                // Determine badge text color
                 const lightBackgroundGroups = ['Holy Gold', 'Pure White'];
                 const badgeTextColor = lightBackgroundGroups.includes(groupName) ? '#1a0f00' : '#ffffff';
 
-                // Send confirmation email via EmailJS in background
-                emailjs.send('service_tyr2voj', 'template_u96ygdu', {
+                const emailPayload = {
                     to_name: registration.name,
                     to_email: registration.email,
                     reg_id: regId,
@@ -3227,31 +3259,37 @@
                     event_date: 'August 30, 2026',
                     event_venue: 'Upper Room Tabernacle, MFMCAASOYC',
                     event_time: '7:25 AM prompt'
-                }).then(() => {
-                    showToast('Registration confirmed! Check your email.');
-                }).catch(emailErr => {
-                    console.warn('Email send failed:', emailErr);
-                    showToast('Registration confirmed!');
-                });
+                };
 
-                // Instantly navigate without waiting for network requests
-                setTimeout(() => {
-                    navigateTo('success');
-                    if (confirmBtn) {
-                        confirmBtn.innerHTML = originalBtnText;
-                        confirmBtn.style.opacity = '1';
-                        confirmBtn.style.pointerEvents = 'auto';
-                    }
-                }, 600);
+                // Send confirmation email to attendee
+                if (typeof emailjs !== 'undefined') {
+                    emailjs.send('service_tyr2voj', 'template_u96ygdu', emailPayload)
+                        .catch(e => console.warn('Attendee email failed:', e));
+
+                    // Send admin notification email
+                    emailjs.send('service_tyr2voj', 'template_admin_notify', {
+                        admin_email: 'mfmcaasoyc@gmail.com',
+                        reg_name: registration.name,
+                        reg_email: registration.email,
+                        reg_phone: registration.phone,
+                        reg_group: groupName,
+                        reg_id: regId,
+                        reg_age: registration.age || 'N/A',
+                        reg_church: registration.church,
+                        total_regs: allRegs.size + 1
+                    }).catch(e => console.warn('Admin notification failed:', e));
+                }
+
+                // Navigate to success
+                setLoading(false);
+                navigateTo('success');
+                try { generateConfetti(); } catch (e) { console.warn('Confetti error:', e); }
+                showToast('Registration confirmed! Check your email.');
 
             } catch (error) {
-                console.error("Registration error:", error);
-                showToast("An error occurred. Please check your connection.");
-                if (confirmBtn) {
-                    confirmBtn.innerHTML = originalBtnText;
-                    confirmBtn.style.opacity = '1';
-                    confirmBtn.style.pointerEvents = 'auto';
-                }
+                console.error('Registration error:', error);
+                showToast(error.message || 'An error occurred. Please check your connection and try again.');
+                setLoading(false);
             }
         }
 
@@ -3292,68 +3330,74 @@
             }
         }
 
-        function performCheckin() {
+        async function performCheckin() {
             const id = document.getElementById('checkinId').value.trim().toUpperCase();
             if (!id) {
                 showToast('Please enter a registration ID');
                 return;
             }
 
-            // Find registration
-            let reg = state.registrations.find(r => r.id === id);
-            if (!reg) {
-                const lastReg = localStorage.getItem('lastRegistration');
-                if (lastReg) {
-                    const parsed = JSON.parse(lastReg);
-                    if (parsed.id === id) reg = parsed;
+            const checkinBtn = document.querySelector('button[onclick="performCheckin()"]');
+            if (checkinBtn) {
+                checkinBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Searching...';
+                checkinBtn.disabled = true;
+            }
+
+            try {
+                const snap = await db.collection('registrations').where('id', '==', id).get();
+
+                if (snap.empty) {
+                    showToast('Registration ID not found. Please check and try again.');
+                    if (checkinBtn) { checkinBtn.innerHTML = 'Verify &amp; Check-In'; checkinBtn.disabled = false; }
+                    return;
                 }
+
+                const docRef = snap.docs[0];
+                const reg = docRef.data();
+
+                if (reg.checked_in) {
+                    showToast(`${reg.name} is already checked in!`);
+                    if (checkinBtn) { checkinBtn.innerHTML = 'Verify &amp; Check-In'; checkinBtn.disabled = false; }
+                    return;
+                }
+
+                // Mark as checked in in Firebase
+                await docRef.ref.update({
+                    checked_in: true,
+                    checkin_time: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                state.checkedIn.add(id);
+
+                // Show result panel
+                document.getElementById('checkinInputSection').classList.add('hidden');
+                document.getElementById('checkinResult').classList.remove('hidden');
+
+                document.getElementById('checkinName').textContent = reg.name;
+                document.getElementById('checkinRegId').textContent = reg.id;
+                document.getElementById('checkinEmail').textContent = reg.email;
+                document.getElementById('checkinChurch').textContent = reg.church || 'N/A';
+                document.getElementById('checkinGroupName').textContent = reg.group;
+                document.getElementById('checkinGroupName').style.color = reg.groupColor || '#d49a1e';
+                document.getElementById('checkinGroupDot').style.backgroundColor = reg.groupColor || '#d49a1e';
+
+                // Generate QR code
+                const qrContainer = document.getElementById('checkinQR');
+                qrContainer.innerHTML = '';
+                new QRCode(qrContainer, {
+                    text: reg.id,
+                    width: 140,
+                    height: 140,
+                    colorDark: '#2a1f10',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+
+                showToast(`Welcome, ${reg.name}! Check-in successful.`);
+            } catch (err) {
+                console.error('Check-in error:', err);
+                showToast('Check-in failed. Please check your connection.');
+                if (checkinBtn) { checkinBtn.innerHTML = 'Verify &amp; Check-In'; checkinBtn.disabled = false; }
             }
-
-            if (!reg) {
-                // Generate demo data for any ID
-                const groupName = GROUP_NAMES[Math.floor(Math.random() * GROUP_NAMES.length)];
-                reg = {
-                    id: id,
-                    name: 'Attendee ' + id.split('-')[1],
-                    email: 'attendee@email.com',
-                    church: 'MFMCAASO Youth Church',
-                    group: groupName,
-                    groupColor: GROUP_COLORS[groupName].color
-                };
-            }
-
-            if (state.checkedIn.has(id)) {
-                showToast('Already checked in!');
-                return;
-            }
-
-            state.checkedIn.add(id);
-
-            // Display result
-            document.getElementById('checkinInputSection').classList.add('hidden');
-            document.getElementById('checkinResult').classList.remove('hidden');
-
-            document.getElementById('checkinName').textContent = reg.name;
-            document.getElementById('checkinRegId').textContent = reg.id;
-            document.getElementById('checkinEmail').textContent = reg.email;
-            document.getElementById('checkinChurch').textContent = reg.church;
-            document.getElementById('checkinGroupName').textContent = reg.group;
-            document.getElementById('checkinGroupName').style.color = reg.groupColor;
-            document.getElementById('checkinGroupDot').style.backgroundColor = reg.groupColor;
-
-            // Generate QR
-            const qrContainer = document.getElementById('checkinQR');
-            qrContainer.innerHTML = '';
-            new QRCode(qrContainer, {
-                text: reg.id,
-                width: 140,
-                height: 140,
-                colorDark: '#2a1f10',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.M
-            });
-
-            showToast('Check-in successful! Welcome!');
         }
 
         function resetCheckin() {
@@ -3406,7 +3450,7 @@
             });
         });
 
-        function submitFeedback() {
+        async function submitFeedback() {
             const comment = document.getElementById('feedbackComment').value.trim();
             const bestSession = document.querySelector('input[name="bestSession"]:checked')?.value;
 
@@ -3415,18 +3459,34 @@
                 return;
             }
 
-            state.feedbacks.push({
-                overall: state.ratings.overall,
-                worship: state.ratings.worship,
-                teaching: state.ratings.teaching,
-                logistics: state.ratings.logistics,
-                comment,
-                bestSession,
-                timestamp: new Date().toISOString()
-            });
+            const feedbackBtn = document.querySelector('button[onclick="submitFeedback()"]');
+            if (feedbackBtn) {
+                feedbackBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
+                feedbackBtn.disabled = true;
+            }
 
-            showToast('Thank you for your feedback!');
-            setTimeout(() => navigateTo('home'), 1500);
+            try {
+                await db.collection('feedback').add({
+                    rating: state.ratings.overall,
+                    worship: state.ratings.worshipRating || 0,
+                    teaching: state.ratings.teachingRating || 0,
+                    logistics: state.ratings.logisticsRating || 0,
+                    comment: comment || '',
+                    bestSession: bestSession || '',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                showToast('Thank you for your feedback!');
+                state.ratings = { overall: 0, worship: 0, teaching: 0, logistics: 0 };
+                setTimeout(() => navigateTo('home'), 1500);
+            } catch (err) {
+                console.error('Feedback error:', err);
+                showToast('Failed to submit feedback. Please try again.');
+                if (feedbackBtn) {
+                    feedbackBtn.innerHTML = 'Submit Feedback';
+                    feedbackBtn.disabled = false;
+                }
+            }
         }
 
         // ==================== ADMIN CHARTS ====================
