@@ -4020,7 +4020,8 @@
 
             try {
                 await db.collection('questions').add({
-                    text: text,
+                    question: text,
+                    name: 'Anonymous',
                     upvotes: 0,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
@@ -4065,7 +4066,7 @@
                         const timeString = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now';
                         html += `
                         <div class="glass-card rounded-2xl p-4">
-                            <p class="text-church-800 text-sm leading-relaxed mb-3">"${data.text}"</p>
+                            <p class="text-church-800 text-sm leading-relaxed mb-3">"${data.question || data.text || ''}"</p>
                             <div class="flex items-center justify-between border-t border-church-100 pt-3">
                                 <span class="text-church-400 text-[10px]"><i class="fas fa-clock mr-1"></i> ${timeString}</span>
                                 <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="incrementUpvote('${doc.id}', this)">
