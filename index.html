@@ -2657,6 +2657,19 @@
                 </div>
             </div>
 
+            <!-- Recent Feedbacks -->
+            <div class="chart-card mb-4">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="font-semibold text-church-800 text-sm">Recent Feedbacks</p>
+                        <p class="text-church-400 text-[10px]">Latest user feedbacks</p>
+                    </div>
+                </div>
+                <div class="space-y-3" id="recentFeedbacks">
+                    <p class="text-church-400 text-[10px] text-center">Loading...</p>
+                </div>
+            </div>
+
             <!-- Quick Actions -->
             <div class="grid grid-cols-2 gap-3">
                 <button class="chart-card text-left tap-scale" onclick="exportReportCSV()">
@@ -2695,7 +2708,8 @@
         <div class="px-5 pt-5 pb-8">
             <div class="glass-card rounded-2xl p-4 mb-6">
                 <p class="font-semibold text-church-800 text-sm mb-2">Submit a Question</p>
-                <textarea id="questionInput" class="form-input resize-none text-sm mb-3" rows="3"
+                <input type="text" id="questionNameInput" class="form-input text-sm mb-3 w-full" placeholder="Your Name (Optional, leave blank for Anonymous)">
+                <textarea id="questionInput" class="form-input resize-none text-sm mb-3 w-full" rows="3"
                     placeholder="Type your question here..."></textarea>
                 <button class="btn-primary w-full py-3 rounded-xl text-sm font-semibold tap-scale ripple"
                     onclick="submitQuestion()">
@@ -2705,6 +2719,11 @@
             <h3 class="font-display text-base font-bold text-church-900 mb-4">Live Q&A</h3>
             <div id="questionsContainer" class="space-y-4">
                 <p class="text-church-400 text-xs text-center py-4">Connecting to real-time database...</p>
+            </div>
+            <div id="loadMoreQuestionsContainer" class="mt-4 hidden flex justify-center">
+                <button class="px-4 py-2 bg-church-100 text-church-700 rounded-lg text-xs font-semibold tap-scale" onclick="loadMoreQuestions()">
+                    See More Questions
+                </button>
             </div>
         </div>
     </div>
@@ -3877,6 +3896,45 @@
                             }
                         }
                     }).catch(e => console.error('Failed to fetch recent activity:', e));
+
+                    // Fetch recent feedbacks specifically
+                    db.collection('feedback').orderBy('timestamp', 'desc').limit(10).get().then(snap => {
+                        const fbContainer = document.getElementById('recentFeedbacks');
+                        if (fbContainer) {
+                            fbContainer.innerHTML = '';
+                            if (snap.empty) {
+                                fbContainer.innerHTML = '<p class="text-church-400 text-[10px] text-center">No recent feedbacks</p>';
+                            } else {
+                                snap.forEach(doc => {
+                                    const data = doc.data();
+                                    const diffMs = data.timestamp ? (Date.now() - data.timestamp.toDate().getTime()) : 0;
+                                    const diffMins = Math.max(0, Math.floor(diffMs / 60000));
+                                    let timeStr = diffMins < 1 ? 'Just now' : `${diffMins}m ago`;
+                                    if (diffMins >= 60 && diffMins < 1440) timeStr = `${Math.floor(diffMins / 60)}h ago`;
+                                    if (diffMins >= 1440) timeStr = `${Math.floor(diffMins / 1440)}d ago`;
+                                    
+                                    let starsHtml = '';
+                                    const rating = data.rating || 5;
+                                    for(let i=1; i<=5; i++) {
+                                        starsHtml += `<i class="fas fa-star ${i <= rating ? 'text-gold-500' : 'text-church-200'} text-[10px]"></i>`;
+                                    }
+
+                                    fbContainer.innerHTML += `
+                                    <div class="p-3 rounded-xl bg-church-50/50 mb-2">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-church-800 text-xs font-semibold">${data.name || 'Anonymous'}</span>
+                                            <span class="text-church-300 text-[10px]">${timeStr}</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 mb-2">
+                                            ${starsHtml}
+                                        </div>
+                                        <p class="text-church-600 text-[11px] leading-relaxed">"${data.comment || 'No comment provided'}"</p>
+                                    </div>
+                                    `;
+                                });
+                            }
+                        }
+                    }).catch(e => console.error('Failed to fetch recent feedbacks:', e));
                 }
             });
         });
@@ -4046,17 +4104,20 @@
 
         async function submitQuestion() {
             const input = document.getElementById('questionInput');
+            const nameInput = document.getElementById('questionNameInput');
             const text = input.value.trim();
+            const name = nameInput ? nameInput.value.trim() : '';
             if (!text) return;
 
             try {
                 await db.collection('questions').add({
                     question: text,
-                    name: 'Anonymous',
+                    name: name || 'Anonymous',
                     upvotes: 0,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 input.value = '';
+                if(nameInput) nameInput.value = '';
                 showToast('Question posted!');
             } catch (e) {
                 console.error(e);
@@ -4077,40 +4138,72 @@
             }
         }
 
+        // Global state for questions limit
+        state.questionsLimit = 5;
+        let questionsSnapshot = [];
+
         // Live Listener for Questions
         function listenForQuestions() {
             db.collection('questions')
                 .orderBy('timestamp', 'desc')
-                .limit(20)
+                .limit(50)
                 .onSnapshot((snapshot) => {
-                    const container = document.getElementById('questionsContainer');
-                    if (!container) return;
-
-                    if (snapshot.empty) {
-                        container.innerHTML = '<p class="text-church-400 text-xs text-center py-4">No questions yet. Be the first to ask.</p>';
-                        return;
-                    }
-
-                    let html = '';
-                    snapshot.forEach((doc) => {
-                        const data = doc.data();
-                        const timeString = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now';
-                        html += `
-                        <div class="glass-card rounded-2xl p-4">
-                            <p class="text-church-800 text-sm leading-relaxed mb-3">"${data.question || data.text || ''}"</p>
-                            <div class="flex items-center justify-between border-t border-church-100 pt-3">
-                                <span class="text-church-400 text-[10px]"><i class="fas fa-clock mr-1"></i> ${timeString}</span>
-                                <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="incrementUpvote('${doc.id}', this)">
-                                    <i class="fas fa-thumbs-up"></i> Agree (${data.upvotes || 0})
-                                </button>
-                            </div>
-                        </div>
-                      `;
-                    });
-                    container.innerHTML = html;
+                    questionsSnapshot = snapshot.docs;
+                    renderQuestions();
                 }, (error) => {
                     console.error("Error listening to questions: ", error);
                 });
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            const loadMoreContainer = document.getElementById('loadMoreQuestionsContainer');
+            if (!container) return;
+
+            if (questionsSnapshot.length === 0) {
+                container.innerHTML = '<p class="text-church-400 text-xs text-center py-4">No questions yet. Be the first to ask.</p>';
+                if(loadMoreContainer) loadMoreContainer.classList.add('hidden');
+                return;
+            }
+
+            let html = '';
+            const toDisplay = questionsSnapshot.slice(0, state.questionsLimit);
+            toDisplay.forEach((doc) => {
+                const data = doc.data();
+                const timeString = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now';
+                const authorName = data.name || 'Anonymous';
+                html += `
+                <div class="glass-card rounded-2xl p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-6 h-6 rounded-full bg-church-100 flex items-center justify-center">
+                            <i class="fas fa-user text-church-400 text-[10px]"></i>
+                        </div>
+                        <span class="font-semibold text-church-800 text-xs">${authorName}</span>
+                    </div>
+                    <p class="text-church-800 text-sm leading-relaxed mb-3">"${data.question || data.text || ''}"</p>
+                    <div class="flex items-center justify-between border-t border-church-100 pt-3">
+                        <span class="text-church-400 text-[10px]"><i class="fas fa-clock mr-1"></i> ${timeString}</span>
+                        <button class="flex items-center gap-1.5 px-3 py-1.5 bg-church-50 text-church-600 rounded-lg text-[11px] font-bold tap-scale" onclick="incrementUpvote('${doc.id}', this)">
+                            <i class="fas fa-thumbs-up"></i> Agree (${data.upvotes || 0})
+                        </button>
+                    </div>
+                </div>
+              `;
+            });
+            container.innerHTML = html;
+
+            if (loadMoreContainer) {
+                if (questionsSnapshot.length > state.questionsLimit) {
+                    loadMoreContainer.classList.remove('hidden');
+                } else {
+                    loadMoreContainer.classList.add('hidden');
+                }
+            }
+        }
+
+        function loadMoreQuestions() {
+            state.questionsLimit += 5;
+            renderQuestions();
         }
 
         // Start listener on load
@@ -4594,6 +4687,10 @@
                 let timeStr = diffMins < 1 ? 'Just now' : `${diffMins}m ago`;
                 if (diffMins > 60) {
                     timeStr = `${Math.floor(diffMins / 60)}h ago`;
+                }
+
+                if (diffMins < 1) {
+                    showToast('New Broadcast: ' + data.message);
                 }
 
                 // Append the new broadcast to the top of the container
