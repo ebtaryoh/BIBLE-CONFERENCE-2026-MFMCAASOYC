@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js'></script>
+    <script src='https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js'></script>
+</head>
+<body>
+    <script>
+        const firebaseConfig = {
+            apiKey: 'AIzaSyBVuhnWtgChq83WqLdKcETtFJW4NvC46Q8',
+            projectId: 'bible-conference-06-mfmcaasoyc'
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        async function test() {
+            try {
+                await db.collection('questions').add({
+                    text: 'test',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('SUCCESS');
+            } catch (e) {
+                console.log('ADD ERROR:', e.message);
+            }
+            try {
+                await db.collection('questions').get();
+                console.log('GET SUCCESS');
+            } catch(e) {
+                console.log('GET ERROR:', e.message);
+            }
+        }
+        test();
+    </script>
+</body>
+</html>
