@@ -19,6 +19,7 @@
     <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging-compat.js"></script>
     <!-- EmailJS for confirmation emails -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
@@ -2958,31 +2959,16 @@
                     <h1 class="font-display text-lg font-bold text-church-900">Notifications</h1>
                     <p class="text-church-400 text-[11px]">Recent updates & alerts</p>
                 </div>
+                <div class="ml-auto">
+                    <button onclick="requestPushPermissions()" id="btnEnablePush"
+                        class="px-3 py-1.5 bg-church-100 text-church-700 rounded-lg text-[10px] font-semibold tap-scale">
+                        <i class="fas fa-bell-slash mr-1"></i> Enable Push
+                    </button>
+                </div>
             </div>
         </div>
         <div class="px-5 pt-5 pb-8 space-y-3" id="notificationsContainer">
-            <div class="glass-card rounded-2xl p-4 flex gap-3 bg-red-50/30 border-l-4 border-l-red-500">
-                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-fire text-red-600 text-xs"></i>
-                </div>
-                <div>
-                    <p class="font-semibold text-church-800 text-sm">Purging Fire Theme Announced</p>
-                    <p class="text-church-500 text-[11px] mt-1">Get ready for an outpouring of the Holy Spirit. Ensure
-                        you register on time!</p>
-                    <p class="text-church-300 text-[9px] mt-2">10 mins ago</p>
-                </div>
-            </div>
-            <div class="glass-card rounded-2xl p-4 flex gap-3 border-l-4 border-l-gold-500">
-                <div class="w-8 h-8 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-clock text-gold-600 text-xs"></i>
-                </div>
-                <div>
-                    <p class="font-semibold text-church-800 text-sm">Prompt Start Time</p>
-                    <p class="text-church-500 text-[11px] mt-1">Reminder: The conference begins exactly at 7:25 AM.
-                        Don't be late!</p>
-                    <p class="text-church-300 text-[9px] mt-2">1 hr ago</p>
-                </div>
-            </div>
+            <p class="text-church-400 text-xs text-center py-4">Connecting to real-time alerts...</p>
         </div>
     </div>
 
@@ -3031,6 +3017,58 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        let messaging;
+        try {
+            messaging = firebase.messaging();
+            messaging.onMessage((payload) => {
+                console.log('Message received in foreground. ', payload);
+                const title = payload.notification?.title || 'New Notification';
+                const body = payload.notification?.body || '';
+                
+                showToast(`New Message: ${title} - ${body}`);
+                
+                if (Notification.permission === 'granted') {
+                    new Notification(title, {
+                        body: body,
+                        icon: "./icon.svg"
+                    });
+                }
+            });
+        } catch (e) {
+            console.warn("Firebase messaging not supported.", e);
+        }
+
+        async function requestPushPermissions() {
+            if (!messaging) {
+                showToast("Push notifications not supported on this device/browser.");
+                return;
+            }
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    showToast("Setting up push notifications...");
+                    const token = await messaging.getToken({ vapidKey: 'BBhvOHCGCRutPKyUyXkYHzIOJYVifE66zOqsmmK8p0m02ZvC9RnSwjJeSUuYvxsM2QTWs2eqv_rZOhZWt_TsJSk' });
+                    if (token) {
+                        // Save token to Firestore anonymously or under a specific doc
+                        await db.collection('fcm_tokens').doc(token).set({
+                            token: token,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        showToast("Push notifications enabled!");
+                        const btn = document.getElementById('btnEnablePush');
+                        if(btn) {
+                            btn.innerHTML = '<i class="fas fa-check-circle mr-1 text-green-600"></i> Enabled';
+                            btn.classList.add('opacity-50', 'pointer-events-none');
+                        }
+                    }
+                } else {
+                    showToast("Permission denied for push notifications.");
+                }
+            } catch (error) {
+                console.error("Error setting up push notifications", error);
+                showToast("Failed to enable push notifications.");
+            }
+        }
 
         // ==================== STATE MANAGEMENT ====================
         const state = {
@@ -3689,6 +3727,7 @@
         const adminObserver = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.target.id === 'screen-admin' && mutation.target.classList.contains('active')) {
+                    initCharts();
                     // Calculate days left
                     const daysLeft = Math.max(0, Math.ceil((CONFERENCE_DATE - Date.now()) / (1000 * 60 * 60 * 24)));
 
@@ -3895,10 +3934,14 @@
                                 });
                             }
                         }
-                    }).catch(e => console.error('Failed to fetch recent activity:', e));
+                    }).catch(e => {
+                        console.error('Failed to fetch recent activity:', e);
+                        const actContainer = document.getElementById('recentActivity');
+                        if (actContainer) actContainer.innerHTML = `<p class="text-red-500 text-[10px] text-center">Error: ${e.message}</p>`;
+                    });
 
                     // Fetch recent feedbacks specifically
-                    db.collection('feedback').orderBy('timestamp', 'desc').limit(10).get().then(snap => {
+                    db.collection('feedback').orderBy('timestamp', 'desc').limit(50).get().then(snap => {
                         const fbContainer = document.getElementById('recentFeedbacks');
                         if (fbContainer) {
                             fbContainer.innerHTML = '';
@@ -3934,7 +3977,11 @@
                                 });
                             }
                         }
-                    }).catch(e => console.error('Failed to fetch recent feedbacks:', e));
+                    }).catch(e => {
+                        console.error('Failed to fetch recent feedbacks:', e);
+                        const fbContainer = document.getElementById('recentFeedbacks');
+                        if (fbContainer) fbContainer.innerHTML = `<p class="text-red-500 text-[10px] text-center">Error: ${e.message}</p>`;
+                    });
                 }
             });
         });
@@ -4121,7 +4168,7 @@
                 showToast('Question posted!');
             } catch (e) {
                 console.error(e);
-                showToast('Error posting question.');
+                showToast('Error: ' + e.message);
             }
         }
 
@@ -4667,51 +4714,70 @@
                 showToast('Broadcast sent successfully');
             } catch (e) {
                 console.error(e);
-                showToast('Failed to send broadcast');
+                showToast('Error: ' + e.message);
                 btn.innerHTML = 'Send';
                 btn.style.pointerEvents = 'auto';
             }
         }
 
         // Live Listener for Broadcasts
+        let initialBroadcastLoaded = false;
+
         document.addEventListener('DOMContentLoaded', () => {
-            db.collection('broadcasts').orderBy('timestamp', 'desc').limit(1).onSnapshot(snap => {
+            db.collection('broadcasts').orderBy('timestamp', 'desc').limit(15).onSnapshot(snap => {
                 const container = document.getElementById('notificationsContainer');
-                if (!container || snap.empty) return;
+                if (!container) return;
 
-                const doc = snap.docs[0];
-                const data = doc.data();
-                if (!data.timestamp) return;
-
-                const diffMins = Math.floor((Date.now() - data.timestamp.toDate().getTime()) / 60000);
-                let timeStr = diffMins < 1 ? 'Just now' : `${diffMins}m ago`;
-                if (diffMins > 60) {
-                    timeStr = `${Math.floor(diffMins / 60)}h ago`;
+                if (snap.empty) {
+                    container.innerHTML = '<p class="text-church-400 text-xs text-center py-4">No recent notifications</p>';
+                    initialBroadcastLoaded = true;
+                    return;
                 }
 
-                if (diffMins < 1) {
-                    showToast('New Broadcast: ' + data.message);
+                // Check for new broadcasts to show toast (only if it's not the initial load)
+                if (initialBroadcastLoaded && !snap.empty) {
+                    const latestDoc = snap.docs[0].data();
+                    const diffMins = latestDoc.timestamp ? Math.floor((Date.now() - latestDoc.timestamp.toDate().getTime()) / 60000) : 0;
+                    if (diffMins < 1) {
+                        showToast('New Broadcast: ' + latestDoc.message);
+                        
+                        // Fallback browser notification if active in background tab
+                        if (Notification.permission === 'granted') {
+                            new Notification("New Admin Broadcast", {
+                                body: latestDoc.message,
+                                icon: "./icon.svg"
+                            });
+                        }
+                    }
                 }
 
-                // Append the new broadcast to the top of the container
-                const div = document.createElement('div');
-                div.className = 'glass-card rounded-2xl p-4 flex gap-3 bg-red-50/30 border-l-4 border-l-red-500 fade-in';
-                div.innerHTML = `
-                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-broadcast-tower text-red-600 text-xs"></i>
+                let html = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    let timeStr = 'Just now';
+                    if (data.timestamp) {
+                        const diffMins = Math.floor((Date.now() - data.timestamp.toDate().getTime()) / 60000);
+                        if (diffMins > 0) timeStr = `${diffMins}m ago`;
+                        if (diffMins >= 60 && diffMins < 1440) timeStr = `${Math.floor(diffMins / 60)}h ago`;
+                        if (diffMins >= 1440) timeStr = `${Math.floor(diffMins / 1440)}d ago`;
+                    }
+
+                    html += `
+                    <div class="glass-card rounded-2xl p-4 flex gap-3 bg-red-50/30 border-l-4 border-l-red-500 fade-in mb-3">
+                        <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-broadcast-tower text-red-600 text-xs"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-church-800 text-sm">Admin Broadcast</p>
+                            <p class="text-church-500 text-[11px] mt-1">${data.message || ''}</p>
+                            <p class="text-church-300 text-[9px] mt-2">${timeStr}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="font-semibold text-church-800 text-sm">New Admin Broadcast</p>
-                        <p class="text-church-500 text-[11px] mt-1">${data.message}</p>
-                        <p class="text-church-300 text-[9px] mt-2">${timeStr}</p>
-                    </div>
-                `;
-
-                container.insertBefore(div, container.firstChild);
-                // Keep only top 5 notifications
-                while (container.children.length > 5) {
-                    container.removeChild(container.lastChild);
-                }
+                    `;
+                });
+                
+                container.innerHTML = html;
+                initialBroadcastLoaded = true;
             });
         });
     </script>
