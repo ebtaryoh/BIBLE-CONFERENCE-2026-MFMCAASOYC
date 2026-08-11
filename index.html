@@ -1692,8 +1692,6 @@
                             <div class="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 tap-scale cursor-pointer"
                                 onclick="navigateTo('notifications')">
                                 <i class="fas fa-bell text-white/80 text-xs"></i>
-                                <span
-                                    class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 rounded-full text-[8px] text-white flex items-center justify-center font-bold">3</span>
                             </div>
                         </div>
                     </div>
@@ -3066,7 +3064,7 @@
                 }
             } catch (error) {
                 console.error("Error setting up push notifications", error);
-                showToast("Failed to enable push notifications.");
+                showToast("Failed to enable: " + error.message);
             }
         }
 
