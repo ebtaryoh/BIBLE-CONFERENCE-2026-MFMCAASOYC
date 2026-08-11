@@ -1689,9 +1689,11 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
-                            <div class="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 tap-scale cursor-pointer"
+                            <div class="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 tap-scale cursor-pointer relative"
                                 onclick="navigateTo('notifications')">
                                 <i class="fas fa-bell text-white/80 text-xs"></i>
+                                <span id="unreadBadge" style="display: none;"
+                                    class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 rounded-full text-[8px] text-white flex items-center justify-center font-bold">0</span>
                             </div>
                         </div>
                     </div>
@@ -3093,6 +3095,18 @@
             const screens = document.querySelectorAll('.screen');
             const navItems = document.querySelectorAll('.nav-item');
             const bottomNav = document.getElementById('bottomNav');
+            
+            if (screenId === 'notifications') {
+                localStorage.setItem('lastNotificationRead', Date.now());
+                const badge = document.getElementById('unreadBadge');
+                if(badge) badge.style.display = 'none';
+
+                const pushBtn = document.getElementById('btnEnablePush');
+                if (pushBtn && Notification.permission === 'granted') {
+                    pushBtn.innerHTML = '<i class="fas fa-check-circle mr-1 text-green-600"></i> Enabled';
+                    pushBtn.classList.add('opacity-50', 'pointer-events-none');
+                }
+            }
 
             if (screenId === 'admin') {
                 showAdminModal();
@@ -4749,12 +4763,21 @@
                     }
                 }
 
+                // Calculate unread badge
+                const lastRead = parseInt(localStorage.getItem('lastNotificationRead') || '0');
+                let unreadCount = 0;
+
                 let html = '';
                 snap.forEach(doc => {
                     const data = doc.data();
                     let timeStr = 'Just now';
                     if (data.timestamp) {
-                        const diffMins = Math.floor((Date.now() - data.timestamp.toDate().getTime()) / 60000);
+                        const msgTime = data.timestamp.toDate().getTime();
+                        if (msgTime > lastRead) {
+                            unreadCount++;
+                        }
+                        
+                        const diffMins = Math.floor((Date.now() - msgTime) / 60000);
                         if (diffMins > 0) timeStr = `${diffMins}m ago`;
                         if (diffMins >= 60 && diffMins < 1440) timeStr = `${Math.floor(diffMins / 60)}h ago`;
                         if (diffMins >= 1440) timeStr = `${Math.floor(diffMins / 1440)}d ago`;
@@ -4775,6 +4798,17 @@
                 });
                 
                 container.innerHTML = html;
+                
+                const badge = document.getElementById('unreadBadge');
+                if (badge) {
+                    if (unreadCount > 0 && state.currentScreen !== 'notifications') {
+                        badge.textContent = unreadCount;
+                        badge.style.display = 'flex';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+                
                 initialBroadcastLoaded = true;
             });
         });
